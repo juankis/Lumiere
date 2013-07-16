@@ -4,6 +4,7 @@
  */
 package objetos;
 
+import conexion.Operaciones;
 import java.util.Date;
 
 /**
@@ -18,6 +19,7 @@ public class Pago {
     private int a_cuenta;
     private int descuento;
     private int idPedido;
+    Operaciones operaciones=new Operaciones();
     
     public Pago(int monto_total,String estado,int a_cuenta,int descuento,int idPedido)
     {
@@ -29,5 +31,11 @@ public class Pago {
     }
        public int getId(){
         return id;
+    }
+    public void guardar_en_BD()
+    {
+        String sql="insert into pago(monto_total,estado,a_cuenta,descuento,pedido_id)"
+                + "values("+monto_total+",'"+estado+"',"+a_cuenta+","+descuento+","+idPedido+")";
+        id=operaciones.guardarYRecuperarId(sql);
     }
 }

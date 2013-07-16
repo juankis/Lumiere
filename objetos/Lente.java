@@ -35,8 +35,9 @@ public class Lente {
     }
     public void guardar_en_BD()
     {
-       // String sql="insert into persona(nombre,apellidos,telefono)values('"+nombre+"','"+apellido+"','"+telefono+"')";
-        //operaciones.insertar(sql);
+        String sql="insert into lente(material,tipo,color,vision,estado,pedido_id)"
+                + "values('"+material+"','"+tipo+"','"+color+"','"+vision+"','"+estado+"',"+idPedido+")";
+        id=operaciones.guardarYRecuperarId(sql);
     }
       public int getId(){
         return id;

@@ -4,6 +4,8 @@
  */
 package objetos;
 
+import conexion.Operaciones;
+
 /**
  *
  * @author juanki
@@ -11,15 +13,15 @@ package objetos;
 public class Montura {
     private int id;
     private String marca;
-    private int codigo;
+    private String codigo;
     private String color;
     private String tipo;
     private String tamanio;
     private String estado;
     private int idPedido;
-    
+    Operaciones operaciones=new Operaciones();
     public Montura(String marca,
-    int codigo,
+    String codigo,
     String color,
     String tipo,
     String tamanio,
@@ -33,7 +35,13 @@ public class Montura {
         this.estado=estado;
         this.idPedido=idPedido;
     }
-      public int getId(){
+    public int getId(){
         return id;
+    }
+    public void guardar_en_BD()
+    {
+        String sql="insert into montura(marca,color,tipo,tamanio,estado,pedido_id)"
+                + "values('"+marca+"','"+color+"','"+tipo+"','"+tamanio+"','"+estado+"',"+idPedido+")";
+        id=operaciones.guardarYRecuperarId(sql);
     }
 }

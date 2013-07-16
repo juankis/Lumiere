@@ -75,7 +75,8 @@ public class Operaciones extends Conexion {
     return resultado;
   }
   public int guardarYRecuperarId(String sql){
-    int id=0;  
+    int id=0;
+    System.out.println(sql);
     conectar();
     ResultSet resultado = null;
     try {
