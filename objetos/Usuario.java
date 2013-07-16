@@ -9,7 +9,7 @@ package objetos;
  * @author juanki
  */
 public class Usuario {
-    private int id;
+    private int id=1;
     private String login;
     private String password;
     private String estado;
@@ -19,5 +19,9 @@ public class Usuario {
         this.login=login;
         this.password=password;
         this.estado=estado;
+    }
+    public int get_id()
+    {
+        return id;
     }
 }

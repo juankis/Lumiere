@@ -4,6 +4,7 @@
  */
 package objetos;
 
+import conexion.Operaciones;
 import java.sql.Time;
 import java.util.Date;
 
@@ -35,6 +36,9 @@ public class Pedido {
     private String observaciones;
     private String estado;
     private String doctor;
+    private int idUsuario;
+    private int idCliente;
+    private Operaciones operaciones=new Operaciones();
     
     public Pedido(Date fecha_ingreso,
     Date fecha_entrega,
@@ -57,7 +61,9 @@ public class Pedido {
     String d_p_cerca,
     String observaciones,
     String estado,
-    String doctor)
+    String doctor,
+    int idUsuario,
+    int idCliente)
     {
         this.fecha_ingreso=fecha_ingreso;
         this.fecha_entrega=fecha_entrega;
@@ -81,6 +87,16 @@ public class Pedido {
         this.observaciones=observaciones;
         this.estado=estado;
         this.doctor=doctor;
-                
+        this.idUsuario=idUsuario;
+        this.idCliente=idCliente;
     }
+    public void guardarEnBD(){
+        
+        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega, persona_id, usuario_id_usuario )values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"',2,1)";
+        id=operaciones.guardarYRecuperarId(sql);
+   }
+    public int getId(){
+        return id;
+    }
+            
 }
