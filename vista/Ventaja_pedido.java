@@ -25,18 +25,15 @@ public class Ventaja_pedido extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         iniciar_componentes();
+        setLayout(null);
     }
     public void iniciar_componentes()
     {
         pedid=new pedido();
-        det_cuenta=new detalle_cuenta();
-        mon_arm=new montura_armazon();
-        lent= new lente();
+        
        
-        pedid.setBounds(0, 0,750,600);
-        det_cuenta.setBounds(0, 100, 207, 160);
-        mon_arm.setBounds(0, 265, 207, 185);
-        lent.setBounds(0, 455, 207,174);
+        pedid.setBounds(0, 0,800,600);
+        
         
         add(pedid);
      
@@ -79,7 +76,7 @@ public class Ventaja_pedido extends javax.swing.JDialog {
                 .addComponent(guardar)
                 .addGap(46, 46, 46)
                 .addComponent(cancelar)
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(384, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
