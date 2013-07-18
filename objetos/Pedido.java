@@ -62,8 +62,8 @@ public class Pedido {
     String observaciones,
     String estado,
     String doctor,
-    int idUsuario,
-    int idCliente)
+    int idCliente,
+    int idUsuario)
     {
         this.fecha_ingreso=fecha_ingreso;
         this.fecha_entrega=fecha_entrega;
@@ -87,12 +87,13 @@ public class Pedido {
         this.observaciones=observaciones;
         this.estado=estado;
         this.doctor=doctor;
-        this.idUsuario=idUsuario;
         this.idCliente=idCliente;
+        this.idUsuario=idUsuario;
+        
     }
     public void guardarEnBD(){
         
-        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega, persona_id, usuario_id_usuario )values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"',2,1)";
+        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega, persona_id, usuario_id_usuario )values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"',"+idCliente+",1)";
         id=operaciones.guardarYRecuperarId(sql);
    }
     public int getId(){

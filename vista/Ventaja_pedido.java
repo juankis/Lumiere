@@ -27,17 +27,11 @@ public class Ventaja_pedido extends javax.swing.JDialog {
         iniciar_componentes();
         setLayout(null);
     }
-    public void iniciar_componentes()
-    {
+    public void iniciar_componentes(){
         pedid=new pedido();
-        
-       
-        pedid.setBounds(0, 0,800,600);
-        
-        
+        pedid.setBounds(0, 0,800,700);
         add(pedid);
-     
-    }
+     }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -92,8 +86,9 @@ public class Ventaja_pedido extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        pedid.validaPedidoYGuardar();
-        dispose();
+        boolean exito=pedid.validaPedidoYGuardar();
+        if(exito)
+          dispose();
     }//GEN-LAST:event_guardarActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed

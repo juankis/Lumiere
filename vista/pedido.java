@@ -12,6 +12,9 @@ package vista;
 
 import java.sql.Time;
 import java.util.Date;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import objetos.Lente;
 import objetos.Montura;
 import objetos.Pago;
@@ -25,17 +28,21 @@ import objetos.Usuario;
 public class pedido extends javax.swing.JPanel {
 
     /** Creates new form pedido */
-    Time hora=new Time(0, 0, 0);
+    private Time hora=new Time(0, 0, 0);
+    private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondo.jpg"));
     public pedido() {
+       
         initComponents();
+        add(fondo,new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0,1000, -1));
         System.out.println(getSize().height+" "+getSize().width);
         valoresPorDefecto();
-        //setLayout(null);
+        
     }
     public void valoresPorDefecto(){
         //fechas
         Date fechaActual=new Date();
         fecha_ingreso.setDate(fechaActual);
+        fecha_entrega.setDate(fechaActual);
         fecha_ingreso.setMinSelectableDate(fechaActual);
         fecha_entrega.setMinSelectableDate(fechaActual);
         
@@ -45,7 +52,7 @@ public class pedido extends javax.swing.JPanel {
         consulta.setText("0");
         descuento.setText("0");
         a_cuenta.setText("0");
-        
+    
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -89,12 +96,10 @@ public class pedido extends javax.swing.JPanel {
         jLabel33 = new javax.swing.JLabel();
         marca_montura = new javax.swing.JTextField();
         tamanio_montura = new javax.swing.JTextField();
-        jLabel34 = new javax.swing.JLabel();
         codigo_montura = new javax.swing.JTextField();
         color_montura = new javax.swing.JTextField();
         tipo_montura = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -148,36 +153,41 @@ public class pedido extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Nombre");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, -1, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, -1, -1));
 
         jLabel2.setText("Apellidos");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 230, -1, -1));
 
         jLabel3.setText("Telefono");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 260, -1, -1));
 
         jLabel4.setText("Total");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 290, -1, -1));
 
         jLabel5.setText("Acuenta");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 230, -1, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, -1, -1));
 
         jLabel6.setText("Saldo");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 230, -1, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 290, -1, -1));
 
         jLabel7.setText("Doctor");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, -1, -1));
-        add(apellido_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 170, 237, -1));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
+        add(apellido_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 237, -1));
 
-        a_cuenta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                a_cuentaKeyReleased(evt);
+        a_cuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                a_cuentaMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                a_cuentaMouseExited(evt);
+            }
+        });
+        a_cuenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 a_cuentaKeyTyped(evt);
             }
         });
-        add(a_cuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 70, -1));
+        add(a_cuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 70, -1));
 
         saldo.setEditable(false);
         saldo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -185,14 +195,14 @@ public class pedido extends javax.swing.JPanel {
                 saldoKeyTyped(evt);
             }
         });
-        add(saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, 70, -1));
+        add(saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 290, 70, -1));
 
         telefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 telefonoKeyTyped(evt);
             }
         });
-        add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 85, -1));
+        add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 85, -1));
 
         total_a_pagar.setEditable(false);
         total_a_pagar.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -200,36 +210,37 @@ public class pedido extends javax.swing.JPanel {
                 total_a_pagarKeyTyped(evt);
             }
         });
-        add(total_a_pagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 70, -1));
-        add(nombre_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, 234, -1));
-        add(doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, 241, -1));
+        add(total_a_pagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 70, -1));
+        add(nombre_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, 234, -1));
+        add(doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, 241, -1));
 
         jLabel8.setText("AUDICION");
-        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, -1, -1));
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 510, -1, -1));
 
         jLabel9.setText("ALTURA");
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 450, -1, -1));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, -1, -1));
 
         jLabel10.setText("D. P. LEJOS");
-        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 450, -1, -1));
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 510, -1, -1));
 
         jLabel11.setText("D. P. CERCA");
-        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 450, -1, -1));
-        add(audicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 470, 60, -1));
-        add(altura, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 470, 62, -1));
-        add(d_p_lejos, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 470, 56, -1));
-        add(d_p_cerca, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 470, 61, -1));
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 510, -1, -1));
+        add(audicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 530, 60, -1));
+        add(altura, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 530, 62, -1));
+        add(d_p_lejos, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 530, 56, -1));
+        add(d_p_cerca, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 530, 61, -1));
 
         jLabel12.setText("Oservaciones");
-        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 500, -1, -1));
+        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 560, -1, -1));
 
         observaciones.setColumns(20);
         observaciones.setRows(5);
         jScrollPane1.setViewportView(observaciones);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 500, 268, 68));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 560, 268, 68));
 
-        jPanel1.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "MONTURA/ARMAZON", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hobo Std", 0, 14), new java.awt.Color(0, 0, 0))); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel29.setText("Marca");
@@ -247,27 +258,16 @@ public class pedido extends javax.swing.JPanel {
         jLabel33.setText("Tamaño");
         jPanel1.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 150, -1, -1));
         jPanel1.add(marca_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 43, 79, -1));
-
-        tamanio_montura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tamanio_monturaActionPerformed(evt);
-            }
-        });
         jPanel1.add(tamanio_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 147, 79, -1));
-
-        jLabel34.setText("MONTURA/ARMAZON");
-        jPanel1.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
         jPanel1.add(codigo_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 69, 79, -1));
         jPanel1.add(color_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 95, 79, -1));
         jPanel1.add(tipo_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 121, 79, -1));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 210, 180));
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 210, 180));
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "LENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hobo Std", 0, 14), new java.awt.Color(0, 0, 0))); // NOI18N
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel13.setText("LENTE");
-        jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
         jLabel14.setText("Material");
         jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 36, -1, -1));
@@ -280,89 +280,79 @@ public class pedido extends javax.swing.JPanel {
 
         jLabel17.setText("Vision");
         jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 116, -1, -1));
-
-        material_lente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                material_lenteActionPerformed(evt);
-            }
-        });
         jPanel2.add(material_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 36, 73, -1));
-
-        tipo_lente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipo_lenteActionPerformed(evt);
-            }
-        });
         jPanel2.add(tipo_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 62, 73, -1));
-
-        color_lente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                color_lenteActionPerformed(evt);
-            }
-        });
         jPanel2.add(color_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 87, 73, -1));
-
-        vision_lente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vision_lenteActionPerformed(evt);
-            }
-        });
         jPanel2.add(vision_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 113, 73, -1));
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 210, 150));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 210, 150));
 
-        jPanel3.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PAGO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hobo Std", 0, 14), new java.awt.Color(0, 0, 0))); // NOI18N
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel18.setText("Lente");
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jLabel19.setText("Armazon");
-        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         jLabel20.setText("Consulta");
-        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 21));
+        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 21));
 
         jLabel21.setText("Total");
-        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
 
         jLabel22.setText("Descuento");
-        jPanel3.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        jPanel3.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
-        lente.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                lenteKeyReleased(evt);
+        lente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lenteMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lenteMouseExited(evt);
+            }
+        });
+        lente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 lenteKeyTyped(evt);
             }
         });
-        jPanel3.add(lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 71, -1));
+        jPanel3.add(lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 71, -1));
 
-        armazon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                armazonActionPerformed(evt);
+        armazon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                armazonMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                armazonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                armazonMousePressed(evt);
             }
         });
         armazon.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                armazonKeyReleased(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 armazonKeyTyped(evt);
             }
         });
-        jPanel3.add(armazon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 71, -1));
+        jPanel3.add(armazon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 71, -1));
 
-        consulta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                consultaKeyReleased(evt);
+        consulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                consultaMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                consultaMouseExited(evt);
+            }
+        });
+        consulta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 consultaKeyTyped(evt);
             }
         });
-        jPanel3.add(consulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 71, -1));
+        jPanel3.add(consulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 71, -1));
 
         total_2.setEditable(false);
         total_2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -370,189 +360,148 @@ public class pedido extends javax.swing.JPanel {
                 total_2KeyTyped(evt);
             }
         });
-        jPanel3.add(total_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 71, -1));
+        jPanel3.add(total_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 71, -1));
 
-        descuento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                descuentoKeyReleased(evt);
+        descuento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                descuentoMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                descuentoMouseExited(evt);
+            }
+        });
+        descuento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 descuentoKeyTyped(evt);
             }
         });
-        jPanel3.add(descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 72, -1));
+        jPanel3.add(descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 72, -1));
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 56, 210, 159));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 109, 210, 170));
 
-        fecha_ingreso.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                fecha_ingresoAncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
+        fecha_ingreso.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         fecha_ingreso.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 fecha_ingresoKeyTyped(evt);
             }
         });
-        add(fecha_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(474, 31, -1, -1));
-        add(fecha_entrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(601, 31, -1, -1));
+        add(fecha_ingreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, -1, -1));
+        add(fecha_entrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 90, -1, -1));
 
         jLabel23.setText("Fecha Ingreso");
-        add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(488, 11, -1, -1));
+        add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, -1, -1));
 
         jLabel24.setText("Fecha Entrega");
-        add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(609, 11, -1, -1));
-
-        lDEsferico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lDEsfericoActionPerformed(evt);
-            }
-        });
-        add(lDEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, 59, -1));
-
-        lIEsferico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lIEsfericoActionPerformed(evt);
-            }
-        });
-        add(lIEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 360, 59, -1));
-
-        lICilindrico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lICilindricoActionPerformed(evt);
-            }
-        });
-        add(lICilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 59, -1));
-
-        lIEje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lIEjeActionPerformed(evt);
-            }
-        });
-        add(lIEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 360, 59, -1));
-
-        lDEje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lDEjeActionPerformed(evt);
-            }
-        });
-        add(lDEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 59, -1));
-
-        lDCilindrico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lDCilindricoActionPerformed(evt);
-            }
-        });
-        add(lDCilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 59, -1));
+        add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, -1, -1));
+        add(lDEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, 59, -1));
+        add(lIEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, 59, -1));
+        add(lICilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 420, 59, -1));
+        add(lIEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 420, 59, -1));
+        add(lDEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 390, 59, -1));
+        add(lDCilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 390, 59, -1));
 
         jLabel25.setText("Esferico");
-        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, -1, -1));
+        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, -1, -1));
 
         jLabel26.setText("Cilindrico");
-        add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, -1, -1));
+        add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 370, -1, -1));
 
         jLabel27.setText("Eje");
-        add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 310, -1, -1));
+        add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 370, -1, -1));
 
         jLabel28.setText("D");
-        add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, -1));
+        add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, -1, -1));
 
         jLabel35.setText("I");
-        add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, -1, -1));
+        add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, -1, -1));
 
         cercaLejos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lejos", "Cerca" }));
-        add(cercaLejos, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, -1, -1));
-
-        cDEsferico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cDEsfericoActionPerformed(evt);
-            }
-        });
-        add(cDEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, 59, -1));
-
-        cIEsferico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cIEsfericoActionPerformed(evt);
-            }
-        });
-        add(cIEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 59, -1));
-
-        cICilindrico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cICilindricoActionPerformed(evt);
-            }
-        });
-        add(cICilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 420, 59, -1));
-
-        cIEje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cIEjeActionPerformed(evt);
-            }
-        });
-        add(cIEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 420, 59, -1));
-
-        cDCilindrico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cDCilindricoActionPerformed(evt);
-            }
-        });
-        add(cDCilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, 59, -1));
-
-        cDEje.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cDEjeActionPerformed(evt);
-            }
-        });
-        add(cDEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 390, 59, -1));
+        add(cercaLejos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 380, -1, -1));
+        add(cDEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, 59, -1));
+        add(cIEsferico, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 480, 59, -1));
+        add(cICilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 480, 59, -1));
+        add(cIEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 59, -1));
+        add(cDCilindrico, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 450, 59, -1));
+        add(cDEje, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 450, 59, -1));
 
         jLabel36.setText("D");
-        add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 390, -1, -1));
+        add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 450, -1, -1));
 
         jLabel37.setText("I");
-        add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 420, -1, -1));
+        add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 480, -1, -1));
 
         jLabel38.setText("Lejos");
-        add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 360, -1, -1));
+        add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 420, -1, -1));
 
         jLabel39.setText("Cerca");
-        add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 400, -1, -1));
+        add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 460, -1, -1));
 
         jLabel40.setText("Hora Entrega");
-        add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(611, 58, -1, -1));
+        add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 120, -1, -1));
 
         l_dos_puntos.setText(":");
-        add(l_dos_puntos, new org.netbeans.lib.awtextra.AbsoluteConstraints(632, 86, -1, -1));
+        add(l_dos_puntos, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, -1, -1));
 
         minuto_ini.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
-        minuto_ini.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                minuto_iniItemStateChanged(evt);
-            }
-        });
-        add(minuto_ini, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 83, -1, -1));
+        add(minuto_ini, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 140, -1, -1));
 
         hora_ini.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        add(hora_ini, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 83, -1, -1));
+        add(hora_ini, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 140, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
-    public void validaPedidoYGuardar(){
-        if(validarPedido()){
+    public boolean validaPedidoYGuardar(){
+        boolean exito=false;
+        if(validarDatosCliente()&&validarPago()&&validarFechas()){
             guardarPedido();
+            exito=true;
         }else{
             System.out.println("no paso validacion");
         }
+        return exito;
     }
-    private boolean validarPedido(){
-        boolean validacion=true;
+    private boolean validarFechas(){
+        boolean validacion=false;
+            try {
+                    if(fecha_entrega.getDate().before(fecha_ingreso.getDate()))
+                        JOptionPane.showMessageDialog(null, "no es posible entregar antes de la fecha de ingreso");
+                    else
+                        validacion=true;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "una de las fechas ingresadas no es valida");
+                }
+        
+        
+        return validacion;
+    }
+    public boolean validarPago(){
+        boolean validacion=false;
+        if(!total_2.getText().equals(""))
+            validacion=true;
+        else
+            JOptionPane.showMessageDialog(null, "el total no es correcto");
+        return validacion;
+    }
+    private boolean validarDatosCliente(){
+        boolean validacion=false;
         validarHora();
-        //
+        if(nombre_cliente.getText().equals("")&&apellido_cliente.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "no coloco nombre y apellido");
+        }else{
+            if(nombre_cliente.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "no coloco nombre");
+            else{
+                if(apellido_cliente.getText().equals(""))
+                JOptionPane.showMessageDialog(null, "no coloco apellido");
+                else{
+                    validacion=true;
+                }
+              }
+            }
         return validacion;
     }
     public void validarHora(){
-        hora=new Time((int)hora_ini.getSelectedItem(),(int)minuto_ini.getSelectedItem(), 00);
+        int hora_=Integer.parseInt(""+hora_ini.getSelectedItem());
+        int minuto=Integer.parseInt(""+minuto_ini.getSelectedItem());
+        hora=new Time(hora_,minuto,0);
        
     }
     private void guardarPedido(){
@@ -570,7 +519,7 @@ public class pedido extends javax.swing.JPanel {
                                 , lIEje.getText(),cDEsferico.getText(), cDCilindrico.getText(),cDEje.getText()
                                 , cIEsferico.getText(),cICilindrico.getText(),cIEje.getText(), audicion.getText()
                                 , altura.getText(), d_p_lejos.getText(),d_p_cerca.getText(), observaciones.getText()
-                                , "estado",doctor.getText(),usuario.get_id(),persona.getId());
+                                , "estado",doctor.getText(),persona.getId(),usuario.get_id());
        pedido.guardarEnBD();
        
        Pago pago= new Pago(total,"01",acu ,desc,pedido.getId()); 
@@ -633,113 +582,71 @@ public class pedido extends javax.swing.JPanel {
         fecha_entrega.setMinSelectableDate(fecha_ingreso.getDate());
     }//GEN-LAST:event_fecha_ingresoKeyTyped
 
-    private void fecha_ingresoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_fecha_ingresoAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fecha_ingresoAncestorAdded
+    private void lenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenteMouseClicked
+        if(lente.getText().equals("0"))
+            lente.setText("");
+    }//GEN-LAST:event_lenteMouseClicked
 
-    private void tamanio_monturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tamanio_monturaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tamanio_monturaActionPerformed
+    private void lenteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenteMouseExited
+        if(lente.getText().equals(""))
+            lente.setText("0");
+    }//GEN-LAST:event_lenteMouseExited
 
-    private void material_lenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_material_lenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_material_lenteActionPerformed
+    private void armazonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_armazonMouseClicked
+        if(armazon.getText().equals("0"))
+            armazon.setText("");
+    }//GEN-LAST:event_armazonMouseClicked
 
-    private void tipo_lenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_lenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipo_lenteActionPerformed
+    private void armazonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_armazonMouseExited
+        if(armazon.getText().equals(""))
+            armazon.setText("0");
+    }//GEN-LAST:event_armazonMouseExited
 
-    private void color_lenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_color_lenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_color_lenteActionPerformed
+    private void consultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultaMouseClicked
+        if(consulta.getText().equals("0"))
+            consulta.setText("");
+    }//GEN-LAST:event_consultaMouseClicked
 
-    private void vision_lenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vision_lenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vision_lenteActionPerformed
+    private void consultaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultaMouseExited
+        if(consulta.getText().equals(""))
+            consulta.setText("0");
+    }//GEN-LAST:event_consultaMouseExited
 
-    private void lDEsfericoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lDEsfericoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lDEsfericoActionPerformed
+    private void descuentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descuentoMouseClicked
+        if(descuento.getText().equals("0"))
+            descuento.setText("");
+    }//GEN-LAST:event_descuentoMouseClicked
 
-    private void lIEsfericoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lIEsfericoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lIEsfericoActionPerformed
+    private void descuentoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descuentoMouseExited
+        if(descuento.getText().equals(""))
+            descuento.setText("0");
+    }//GEN-LAST:event_descuentoMouseExited
 
-    private void lICilindricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lICilindricoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lICilindricoActionPerformed
+    private void a_cuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_a_cuentaMouseClicked
+        if(a_cuenta.getText().equals("0"))
+            a_cuenta.setText("");
+    }//GEN-LAST:event_a_cuentaMouseClicked
 
-    private void lIEjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lIEjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lIEjeActionPerformed
+    private void a_cuentaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_a_cuentaMouseExited
+        if(a_cuenta.getText().equals(""))
+            a_cuenta.setText("0");
+    }//GEN-LAST:event_a_cuentaMouseExited
 
-    private void lDEjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lDEjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lDEjeActionPerformed
-
-    private void lDCilindricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lDCilindricoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lDCilindricoActionPerformed
-
-    private void cDEsfericoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDEsfericoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cDEsfericoActionPerformed
-
-    private void cIEsfericoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cIEsfericoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cIEsfericoActionPerformed
-
-    private void cICilindricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cICilindricoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cICilindricoActionPerformed
-
-    private void cIEjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cIEjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cIEjeActionPerformed
-
-    private void cDCilindricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDCilindricoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cDCilindricoActionPerformed
-
-    private void cDEjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cDEjeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cDEjeActionPerformed
-
-    private void lenteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lenteKeyReleased
-        if(!lente.getText().equals(""))
-            calcularTotalAPagar();
-    }//GEN-LAST:event_lenteKeyReleased
-
-    private void armazonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_armazonKeyReleased
-        if(!armazon.getText().equals(""))
-            calcularTotalAPagar();
-    }//GEN-LAST:event_armazonKeyReleased
-
-    private void consultaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_consultaKeyReleased
-        if(!consulta.getText().equals(""))
-            calcularTotalAPagar();
-    }//GEN-LAST:event_consultaKeyReleased
-
-    private void descuentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descuentoKeyReleased
-        if(!descuento.getText().equals(""))
-            calcularTotalAPagar();    
-    }//GEN-LAST:event_descuentoKeyReleased
-
-    private void a_cuentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_a_cuentaKeyReleased
-        if(!a_cuenta.getText().equals(""))
-            saldo.setText(""+(Integer.parseInt(total_2.getText())-Integer.parseInt(a_cuenta.getText())));   
-    }//GEN-LAST:event_a_cuentaKeyReleased
-
-    private void minuto_iniItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_minuto_iniItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_minuto_iniItemStateChanged
-
-    private void armazonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_armazonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_armazonActionPerformed
+    private void armazonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_armazonMousePressed
+        if(armazon.getText().equals("0"))
+            armazon.setText("");
+    }//GEN-LAST:event_armazonMousePressed
     private void calcularTotalAPagar()
     {
-        total_2.setText(""+(Integer.parseInt(lente.getText())+Integer.parseInt(armazon.getText())+Integer.parseInt(consulta.getText())+Integer.parseInt(armazon.getText())-Integer.parseInt(descuento.getText())));
+        if(lente.getText().equals(""))
+             lente.setText("0");
+        if(armazon.getText().equals(""))
+             armazon.setText("0");
+        if(consulta.getText().equals(""))
+            consulta.setText("0");
+        if(descuento.getText().equals("0"))
+            descuento.setText("0");
+        total_2.setText(Integer.toString(Integer.parseInt(lente.getText())+Integer.parseInt(armazon.getText())+Integer.parseInt(consulta.getText())-Integer.parseInt(descuento.getText())));
         total_a_pagar.setText(total_2.getText());        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -770,7 +677,6 @@ public class pedido extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -793,7 +699,6 @@ public class pedido extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
