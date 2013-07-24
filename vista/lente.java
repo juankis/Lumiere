@@ -10,16 +10,33 @@
  */
 
 package vista;
-
+import conexion.*;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 /**
  *
  * @author juanki
  */
 public class lente extends javax.swing.JPanel {
+private Operaciones operaciones=new Operaciones();
 
     /** Creates new form lente */
     public lente() {
         initComponents();
+        ArrayList<String> lista=new ArrayList<String>();
+       /*
+        jComboBox2.addItem("");
+        jComboBox2.addItem("maria juana");
+        jComboBox2.addItem("juan carlo ojeda");
+      jComboBox2.addItem("jose torrico");
+        jComboBox2.addItem("jaime gonzales");
+        jComboBox2.addItem("jaime mosquera");
+        //.addItem(lista);
+    
+         */
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "","alejandro", "berenice", "juan", "ana", "bartolo", "diana", "cesar","alejandro", "berenice", "juan", "ana choque", "bartolo", "diana", "cesar choque"  }));
+       // AutoCompleteDecorator.decorate(this.jComboBox1);
     }
 
     /** This method is called from within the constructor to
@@ -40,6 +57,7 @@ public class lente extends javax.swing.JPanel {
         jComboBox2 = new javax.swing.JComboBox();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 255, 153));
 
@@ -53,13 +71,34 @@ public class lente extends javax.swing.JPanel {
 
         jLabel5.setText("Vision");
 
+        jComboBox1.setEditable(true);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setAutoscrolls(true);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setEditable(true);
+        jComboBox2.setAutoscrolls(true);
+        jComboBox2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox2KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jComboBox2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jComboBox2KeyTyped(evt);
+            }
+        });
 
         jTextField1.setText("jTextField1");
 
         jTextField2.setText("jTextField2");
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -78,12 +117,13 @@ public class lente extends javax.swing.JPanel {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                            .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jButton1)))
                     .add(layout.createSequentialGroup()
                         .add(64, 64, 64)
                         .add(jLabel1)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -106,12 +146,44 @@ public class lente extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel5)
                     .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(jButton1)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBox2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox2KeyReleased
+        
+       System.out.println(evt.getKeyChar());
+    }//GEN-LAST:event_jComboBox2KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println("letra:"+((JTextField)jComboBox1.getEditor().getEditorComponent()).getText());
+    
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox2KeyTyped
+         System.out.println("let");
+        System.out.println("letra:"+((JTextField)jComboBox2.getEditor().getEditorComponent()).getText());
+    }//GEN-LAST:event_jComboBox2KeyTyped
+
+    private void jComboBox2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox2KeyPressed
+          System.out.println("let");
+    }//GEN-LAST:event_jComboBox2KeyPressed
+    private ArrayList<String> buscarsemejantes(ArrayList<String> posibles,String palabraClave){
+        ArrayList<String> res=new ArrayList<String>();
+        int tam=palabraClave.length();
+        for(int i =0;i<posibles.size();i++)
+        {
+            if(posibles.get(i).substring(0, tam).equals(palabraClave))
+                res.add(posibles.get(i));
+        }
+        return res;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -122,5 +194,46 @@ public class lente extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+ public static void main(String args[]) {
+          /*
+         * Set the Nimbus look and feel
+         */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
+        /*
+         * Create and display the form
+         */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                JFrame ventana=new JFrame();
+                lente lent=new lente();
+                ventana.add(lent);
+                ventana.setLocation(300,300);
+                ventana.setVisible(true);
+            }
+        });
+    }
 }

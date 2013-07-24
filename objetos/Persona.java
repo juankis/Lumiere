@@ -6,6 +6,11 @@ package objetos;
 
 import conexion.Conexion;
 import conexion.Operaciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -24,6 +29,19 @@ public class Persona {
         this.apellido=apellido;
         this.telefono=telefono;
     }
+    public Persona(){
+    
+    }
+    public DefaultComboBoxModel listaNombres(String cadenaEscrita){
+        
+        String query = "SELECT DISTINCT p.nombre FROM persona p WHERE p.nombre LIKE '" + cadenaEscrita + "%';";
+        return operaciones.getModeloCombo(query);
+     }
+    public DefaultComboBoxModel listaApellidos(String cadenaEscrita){
+                
+        String query = "SELECT DISTINCT p.apellidos FROM persona p WHERE p.apellidos LIKE '" + cadenaEscrita + "%';";
+        return operaciones.getModeloCombo(query);
+     }
       public void guardar_en_BD()
     {
         int id=0;

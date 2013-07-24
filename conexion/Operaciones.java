@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -28,11 +30,29 @@ public class Operaciones extends Conexion {
   /**
    * Constructor for objects of class Operaciones
    */
+  ResultSet res;  
   public Operaciones() {
     // initialise instance variables
   }
 
-  
+  public DefaultComboBoxModel getModeloCombo(String query){
+      ResultSet res = null;
+      DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        try {
+        res=consultar(query);
+        if (res != null) {
+        while (res.next()) {
+                modelo.addElement(res.getString(1));
+            }
+        }
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "" + ex.getMessage());
+        }finally {
+           cerrarConexion();
+        }
+        return modelo;
+  }    
   public boolean insertar(String sql) {
      
     boolean valor = true;
@@ -43,12 +63,7 @@ public class Operaciones extends Conexion {
       valor = false;
       JOptionPane.showMessageDialog(null, e.getMessage());
     } finally {
-      try {
-        consulta.close();
-        conexion.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+        cerrarConexion();
     }
     return valor;
   }
@@ -64,14 +79,7 @@ public class Operaciones extends Conexion {
       System.out.println("Estado:" + e.getSQLState());
       System.out.println("Codigo del error:" + e.getErrorCode());
       JOptionPane.showMessageDialog(null, "" + e.getMessage());
-    } finally {
-      try {
-        consulta.close();
-        conexion.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
+    } 
     return resultado;
   }
   public int guardarYRecuperarId(String sql){
@@ -91,12 +99,7 @@ public class Operaciones extends Conexion {
       System.out.println("Codigo del error:" + e.getErrorCode());
       JOptionPane.showMessageDialog(null, "" + e.getMessage());
     } finally {
-      try {
-        consulta.close();
-        conexion.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      cerrarConexion();
     }
       return id;
   }

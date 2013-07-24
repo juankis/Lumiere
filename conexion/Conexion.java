@@ -54,6 +54,7 @@ public class Conexion {
        public Connection cerrarConexion(){
         try {
             conexion.close();
+            consulta.close();
              System.out.println("Cerrando conexion a lumiere . . . . . Ok");
         } catch (SQLException ex) {
             System.out.println(ex);

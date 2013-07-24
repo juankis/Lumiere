@@ -10,11 +10,15 @@
  */
 package vista;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Time;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.text.JTextComponent;
 import objetos.Lente;
 import objetos.Montura;
 import objetos.Pago;
@@ -30,11 +34,21 @@ public class pedido extends javax.swing.JPanel {
     /** Creates new form pedido */
     private Time hora=new Time(0, 0, 0);
     private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondo.jpg"));
+    private int costoLente=0;
+    private int costoArmazon=0;
+    private int costoConsulta=0;
+    private int costoDescuento=0;
+    private int costoACuenta=0;
+    private int costoTotal=0;
+    private int cotoSaldo=0;
+    private int totalAPagar=0;
+    private Persona persona=new Persona();
+    private Montura montura=new Montura();
+    private Lente lente=new Lente();
     public pedido() {
        
         initComponents();
-        add(fondo,new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0,1000, -1));
-        System.out.println(getSize().height+" "+getSize().width);
+        
         valoresPorDefecto();
         
     }
@@ -45,15 +59,167 @@ public class pedido extends javax.swing.JPanel {
         fecha_entrega.setDate(fechaActual);
         fecha_ingreso.setMinSelectableDate(fechaActual);
         fecha_entrega.setMinSelectableDate(fechaActual);
-        
-        //Costos $$
-        lente.setText("0");
-        armazon.setText("0");
-        consulta.setText("0");
-        descuento.setText("0");
-        a_cuenta.setText("0");
-    
+        //fondo
+        add(fondo,new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0,1000, -1));
+        //autocompletes
+        iniciarAutoCompletes(); 
+        //nombres de componentes
+        setnombresComponentes();
     }
+    public void setnombresComponentes(){
+        //persona
+        nombre_cliente.setName("nombre_cliente");
+        apellido_cliente.setName("apellido_cliente");
+        //montura
+        marca_montura.setName("marca_montura");
+        codigo_montura.setName("codigo_montura");
+        color_montura.setName("color_montura");
+        tipo_montura.setName("tipo_montura");
+        tamanio_montura.setName("tamanio_montura");
+        //lente
+        material_lente.setName("material_lente");
+        tipo_lente.setName("tipo_lente");
+        color_lente.setName("color_lente");
+        vision_lente.setName("vision_lente");
+    }
+    public void iniciarAutoCompletes(){
+        nombre_cliente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,nombre_cliente);
+            }
+        });
+        apellido_cliente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,apellido_cliente);
+            }
+        });
+        marca_montura.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,marca_montura);
+            }
+        });
+        codigo_montura.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,codigo_montura);
+            }
+        });
+        color_montura.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,color_montura);
+            }
+        });
+        tipo_montura.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,tipo_montura);
+            }
+        });
+        tamanio_montura.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,tamanio_montura);
+            }
+        });
+        material_lente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,material_lente);
+            }
+        });
+        tipo_lente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,tipo_lente);
+            }
+        });
+        color_lente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,color_lente);
+            }
+        });
+        vision_lente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+           @Override
+            public void keyReleased(KeyEvent evt) {
+               autocompletar(evt,vision_lente);
+            }
+        });
+    }
+       public void autocompletar(KeyEvent evt,JComboBox combo)
+    {
+         String cadenaEscrita = combo.getEditor().getItem().toString();
+
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+//                    buscar(cadenaEscrita);
+                }
+                if (evt.getKeyCode() >= 65 && evt.getKeyCode() <= 90 || evt.getKeyCode() >= 96 && evt.getKeyCode() <= 105 || evt.getKeyCode() == 8) {
+                    listarNombres(combo,cadenaEscrita);
+                    
+                    if (combo.getItemCount() > 0) {
+
+                        combo.showPopup();
+                        if (evt.getKeyCode() != 8) {
+                            ((JTextComponent) combo.getEditor().getEditorComponent()).select(cadenaEscrita.length(), combo.getEditor().getItem().toString().length());
+
+                        } else {
+                            combo.getEditor().setItem(cadenaEscrita);
+                        }
+
+                    } else {
+
+                        combo.addItem(cadenaEscrita);
+                    }
+                }
+    }
+    public void listarNombres(JComboBox combo,String cadenaEscrita){
+        System.out.println(combo.getName());
+        if(combo.getName().equals("apellido_cliente"))
+             combo.setModel(persona.listaApellidos(cadenaEscrita));
+        if(combo.getName().equals("nombre_cliente"))
+             combo.setModel(persona.listaNombres(cadenaEscrita));
+        if(combo.getName().equals("marca_montura"))
+             combo.setModel(montura.listaMarcas(cadenaEscrita));
+        if(combo.getName().equals("codigo_montura"))
+             combo.setModel(montura.listaCodigos(cadenaEscrita));
+        if(combo.getName().equals("color_montura"))
+             combo.setModel(montura.listaColores(cadenaEscrita));
+        if(combo.getName().equals("tipo_montura"))
+             combo.setModel(montura.listaTipos(cadenaEscrita));
+        if(combo.getName().equals("tamanio_montura"))
+             combo.setModel(montura.listaTamanios(cadenaEscrita));
+        if(combo.getName().equals("material_lente"))
+             combo.setModel(lente.listaMateriales(cadenaEscrita));
+        if(combo.getName().equals("tipo_lente"))
+             combo.setModel(lente.listaTipos(cadenaEscrita));
+        if(combo.getName().equals("color_lente"))
+             combo.setModel(lente.listaColores(cadenaEscrita));
+        if(combo.getName().equals("vision_lente"))
+             combo.setModel(lente.listaVisiones(cadenaEscrita));
+        
+    }
+            
+/*    public void buscar(String nombre) {
+        String datos[] = operacion.buscar(nombre);
+
+        if (datos[0] != null) {
+            jTextField1.setText(datos[0]);
+            jTextField2.setText(datos[1]);
+            jTextField3.setText(datos[2]);
+            jTextField4.setText(datos[3]);
+
+        } else {
+
+            JOptionPane.showMessageDialog(this, "No se encontro ningun archivo", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+        * 
+        */
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -70,13 +236,10 @@ public class pedido extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        apellido_cliente = new javax.swing.JTextField();
         a_cuenta = new javax.swing.JTextField();
         saldo = new javax.swing.JTextField();
         telefono = new javax.swing.JTextField();
         total_a_pagar = new javax.swing.JTextField();
-        nombre_cliente = new javax.swing.JTextField();
-        doctor = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -94,27 +257,27 @@ public class pedido extends javax.swing.JPanel {
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        marca_montura = new javax.swing.JTextField();
-        tamanio_montura = new javax.swing.JTextField();
-        codigo_montura = new javax.swing.JTextField();
-        color_montura = new javax.swing.JTextField();
-        tipo_montura = new javax.swing.JTextField();
+        marca_montura = new javax.swing.JComboBox();
+        tamanio_montura = new javax.swing.JComboBox();
+        tipo_montura = new javax.swing.JComboBox();
+        color_montura = new javax.swing.JComboBox();
+        codigo_montura = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        material_lente = new javax.swing.JTextField();
-        tipo_lente = new javax.swing.JTextField();
-        color_lente = new javax.swing.JTextField();
-        vision_lente = new javax.swing.JTextField();
+        vision_lente = new javax.swing.JComboBox();
+        color_lente = new javax.swing.JComboBox();
+        tipo_lente = new javax.swing.JComboBox();
+        material_lente = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        lente = new javax.swing.JTextField();
+        lente_pago = new javax.swing.JTextField();
         armazon = new javax.swing.JTextField();
         consulta = new javax.swing.JTextField();
         total_2 = new javax.swing.JTextField();
@@ -149,6 +312,9 @@ public class pedido extends javax.swing.JPanel {
         l_dos_puntos = new javax.swing.JLabel();
         minuto_ini = new javax.swing.JComboBox();
         hora_ini = new javax.swing.JComboBox();
+        apellido_cliente = new javax.swing.JComboBox();
+        nombre_cliente = new javax.swing.JComboBox();
+        doctor = new javax.swing.JComboBox();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -172,17 +338,11 @@ public class pedido extends javax.swing.JPanel {
 
         jLabel7.setText("Doctor");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
-        add(apellido_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 237, -1));
 
-        a_cuenta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                a_cuentaMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                a_cuentaMouseExited(evt);
-            }
-        });
         a_cuenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                a_cuentaKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 a_cuentaKeyTyped(evt);
             }
@@ -211,8 +371,6 @@ public class pedido extends javax.swing.JPanel {
             }
         });
         add(total_a_pagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 70, -1));
-        add(nombre_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, 234, -1));
-        add(doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, 241, -1));
 
         jLabel8.setText("AUDICION");
         add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 510, -1, -1));
@@ -244,24 +402,34 @@ public class pedido extends javax.swing.JPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel29.setText("Marca");
-        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 46, -1, -1));
+        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         jLabel30.setText("Codigo");
-        jPanel1.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 72, -1, -1));
+        jPanel1.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
         jLabel31.setText("Color");
-        jPanel1.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 98, -1, -1));
+        jPanel1.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
         jLabel32.setText("Tipo");
-        jPanel1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 124, -1, -1));
+        jPanel1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
         jLabel33.setText("Tamaño");
         jPanel1.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 150, -1, -1));
-        jPanel1.add(marca_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 43, 79, -1));
-        jPanel1.add(tamanio_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 147, 79, -1));
-        jPanel1.add(codigo_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 69, 79, -1));
-        jPanel1.add(color_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 95, 79, -1));
-        jPanel1.add(tipo_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 121, 79, -1));
+
+        marca_montura.setEditable(true);
+        jPanel1.add(marca_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 80, -1));
+
+        tamanio_montura.setEditable(true);
+        jPanel1.add(tamanio_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 80, -1));
+
+        tipo_montura.setEditable(true);
+        jPanel1.add(tipo_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 80, -1));
+
+        color_montura.setEditable(true);
+        jPanel1.add(color_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 80, -1));
+
+        codigo_montura.setEditable(true);
+        jPanel1.add(codigo_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 80, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 210, 180));
 
@@ -270,22 +438,30 @@ public class pedido extends javax.swing.JPanel {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel14.setText("Material");
-        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 36, -1, -1));
+        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 20));
 
         jLabel15.setText("Tipo");
-        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 65, -1, -1));
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
         jLabel16.setText("Color");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 87, -1, -1));
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
         jLabel17.setText("Vision");
-        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 116, -1, -1));
-        jPanel2.add(material_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 36, 73, -1));
-        jPanel2.add(tipo_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 62, 73, -1));
-        jPanel2.add(color_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 87, 73, -1));
-        jPanel2.add(vision_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(74, 113, 73, -1));
+        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 210, 150));
+        vision_lente.setEditable(true);
+        jPanel2.add(vision_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 80, -1));
+
+        color_lente.setEditable(true);
+        jPanel2.add(color_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 80, -1));
+
+        tipo_lente.setEditable(true);
+        jPanel2.add(tipo_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 80, -1));
+
+        material_lente.setEditable(true);
+        jPanel2.add(material_lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 80, -1));
+
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 210, 160));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PAGO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Hobo Std", 0, 14), new java.awt.Color(0, 0, 0))); // NOI18N
@@ -306,48 +482,30 @@ public class pedido extends javax.swing.JPanel {
         jLabel22.setText("Descuento");
         jPanel3.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
-        lente.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lenteMouseClicked(evt);
+        lente_pago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                lente_pagoKeyReleased(evt);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lenteMouseExited(evt);
-            }
-        });
-        lente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                lenteKeyTyped(evt);
+                lente_pagoKeyTyped(evt);
             }
         });
-        jPanel3.add(lente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 71, -1));
+        jPanel3.add(lente_pago, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 71, -1));
 
-        armazon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                armazonMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                armazonMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                armazonMousePressed(evt);
-            }
-        });
         armazon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                armazonKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 armazonKeyTyped(evt);
             }
         });
         jPanel3.add(armazon, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 71, -1));
 
-        consulta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                consultaMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                consultaMouseExited(evt);
-            }
-        });
         consulta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                consultaKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 consultaKeyTyped(evt);
             }
@@ -362,15 +520,10 @@ public class pedido extends javax.swing.JPanel {
         });
         jPanel3.add(total_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 71, -1));
 
-        descuento.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                descuentoMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                descuentoMouseExited(evt);
-            }
-        });
         descuento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                descuentoKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 descuentoKeyTyped(evt);
             }
@@ -447,14 +600,24 @@ public class pedido extends javax.swing.JPanel {
 
         hora_ini.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         add(hora_ini, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 140, -1, -1));
+
+        apellido_cliente.setEditable(true);
+        add(apellido_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 240, -1));
+
+        nombre_cliente.setEditable(true);
+        add(nombre_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, 240, -1));
+
+        doctor.setEditable(true);
+        add(doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, 240, -1));
     }// </editor-fold>//GEN-END:initComponents
     public boolean validaPedidoYGuardar(){
         boolean exito=false;
-        if(validarDatosCliente()&&validarPago()&&validarFechas()){
-            guardarPedido();
-            exito=true;
-        }else{
-            System.out.println("no paso validacion");
+        if(validarDatosCliente()){
+            if(validarPago()){
+                if(validarFechas()){
+                    guardarPedido();
+                    exito=true;}
+            }
         }
         return exito;
     }
@@ -472,24 +635,32 @@ public class pedido extends javax.swing.JPanel {
         
         return validacion;
     }
+    
+    
+    
+    
     public boolean validarPago(){
         boolean validacion=false;
-        if(!total_2.getText().equals(""))
+        calcularTotalAPagar();
+        if(!total_2.getText().equals("0"))
             validacion=true;
         else
             JOptionPane.showMessageDialog(null, "el total no es correcto");
         return validacion;
     }
+    private String getString(JComboBox combo){
+        return combo.getEditor().getItem().toString();
+    }
     private boolean validarDatosCliente(){
         boolean validacion=false;
         validarHora();
-        if(nombre_cliente.getText().equals("")&&apellido_cliente.getText().equals("")){
+        if(getString(apellido_cliente).equals("")&&apellido_cliente.getEditor().getItem().toString().equals("")){
             JOptionPane.showMessageDialog(null, "no coloco nombre y apellido");
         }else{
-            if(nombre_cliente.getText().equals(""))
+            if(getString(apellido_cliente).equals(""))
             JOptionPane.showMessageDialog(null, "no coloco nombre");
             else{
-                if(apellido_cliente.getText().equals(""))
+                if(getString(apellido_cliente).equals(""))
                 JOptionPane.showMessageDialog(null, "no coloco apellido");
                 else{
                     validacion=true;
@@ -506,30 +677,30 @@ public class pedido extends javax.swing.JPanel {
     }
     private void guardarPedido(){
        Usuario usuario=new Usuario("juankiss", "juankiss", "conectado:D");
-       Persona persona =new Persona(nombre_cliente.getText(), apellido_cliente.getText(), telefono.getText());
+       Persona persona =new Persona(getString(apellido_cliente), getString(apellido_cliente), telefono.getText());
        persona.guardar_en_BD();
        
        
-       int total=Integer.parseInt(total_a_pagar.getText());
-       int acu= Integer.parseInt(a_cuenta.getText());
-       int desc=Integer.parseInt(descuento.getText());
+       int total=costoTotal;
+       int acu= costoACuenta;
+       int desc=costoDescuento;
        
        Pedido pedido= new Pedido(fecha_ingreso.getDate(), fecha_entrega.getDate(),hora, lDEsferico.getText()
                                 , lDCilindrico.getText(),lDEje.getText(), lIEsferico.getText(),lICilindrico.getText()
                                 , lIEje.getText(),cDEsferico.getText(), cDCilindrico.getText(),cDEje.getText()
                                 , cIEsferico.getText(),cICilindrico.getText(),cIEje.getText(), audicion.getText()
                                 , altura.getText(), d_p_lejos.getText(),d_p_cerca.getText(), observaciones.getText()
-                                , "estado",doctor.getText(),persona.getId(),usuario.get_id());
+                                , "es",getString(doctor),persona.getId(),usuario.get_id());
        pedido.guardarEnBD();
        
        Pago pago= new Pago(total,"01",acu ,desc,pedido.getId()); 
        pago.guardar_en_BD();
-       Lente lente=new Lente(material_lente.getText(),tipo_lente.getText(),
-                             color_lente.getText(), vision_lente.getText(),"01",pedido.getId());
+       Lente lente=new Lente(getString(material_lente),getString(tipo_lente),
+                             getString(color_lente), getString(vision_lente),"01",pedido.getId());
        lente.guardar_en_BD();
-       Montura montura_a=new Montura(marca_montura.getText(), codigo_montura.getText(),
-                                    color_montura.getText(),tipo_montura.getText(),
-                                     tamanio_montura.getText(),"01",pedido.getId());
+       Montura montura_a=new Montura(getString(marca_montura),getString(codigo_montura),
+                                    getString(color_montura),getString(tipo_montura),
+                                    getString(tamanio_montura),"01",pedido.getId());
        montura_a.guardar_en_BD();
      }
     private void telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyTyped
@@ -538,7 +709,6 @@ public class pedido extends javax.swing.JPanel {
     }//GEN-LAST:event_telefonoKeyTyped
 
     private void total_a_pagarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total_a_pagarKeyTyped
-       
         char car = evt.getKeyChar();
         if((car<'0' || car>'9')) evt.consume();
     }//GEN-LAST:event_total_a_pagarKeyTyped
@@ -563,10 +733,11 @@ public class pedido extends javax.swing.JPanel {
         if((car<'0' || car>'9')) evt.consume();
     }//GEN-LAST:event_descuentoKeyTyped
 
-    private void lenteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lenteKeyTyped
+    private void lente_pagoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lente_pagoKeyTyped
+        calcularTotalAPagar();
         char car = evt.getKeyChar();
-        if((car<'0' || car>'9')) evt.consume();
-    }//GEN-LAST:event_lenteKeyTyped
+        if((car<'0' || car>'9')) evt.consume();            
+    }//GEN-LAST:event_lente_pagoKeyTyped
 
     private void armazonKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_armazonKeyTyped
         char car = evt.getKeyChar();
@@ -582,77 +753,48 @@ public class pedido extends javax.swing.JPanel {
         fecha_entrega.setMinSelectableDate(fecha_ingreso.getDate());
     }//GEN-LAST:event_fecha_ingresoKeyTyped
 
-    private void lenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenteMouseClicked
-        if(lente.getText().equals("0"))
-            lente.setText("");
-    }//GEN-LAST:event_lenteMouseClicked
+    private void lente_pagoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lente_pagoKeyReleased
+        calcularTotalAPagar();
+    }//GEN-LAST:event_lente_pagoKeyReleased
 
-    private void lenteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenteMouseExited
-        if(lente.getText().equals(""))
-            lente.setText("0");
-    }//GEN-LAST:event_lenteMouseExited
+    private void armazonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_armazonKeyReleased
+        calcularTotalAPagar();
+    }//GEN-LAST:event_armazonKeyReleased
 
-    private void armazonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_armazonMouseClicked
-        if(armazon.getText().equals("0"))
-            armazon.setText("");
-    }//GEN-LAST:event_armazonMouseClicked
+    private void consultaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_consultaKeyReleased
+        calcularTotalAPagar();
+    }//GEN-LAST:event_consultaKeyReleased
 
-    private void armazonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_armazonMouseExited
-        if(armazon.getText().equals(""))
-            armazon.setText("0");
-    }//GEN-LAST:event_armazonMouseExited
+    private void descuentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descuentoKeyReleased
+        calcularTotalAPagar();
+    }//GEN-LAST:event_descuentoKeyReleased
 
-    private void consultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultaMouseClicked
-        if(consulta.getText().equals("0"))
-            consulta.setText("");
-    }//GEN-LAST:event_consultaMouseClicked
-
-    private void consultaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultaMouseExited
-        if(consulta.getText().equals(""))
-            consulta.setText("0");
-    }//GEN-LAST:event_consultaMouseExited
-
-    private void descuentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descuentoMouseClicked
-        if(descuento.getText().equals("0"))
-            descuento.setText("");
-    }//GEN-LAST:event_descuentoMouseClicked
-
-    private void descuentoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_descuentoMouseExited
-        if(descuento.getText().equals(""))
-            descuento.setText("0");
-    }//GEN-LAST:event_descuentoMouseExited
-
-    private void a_cuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_a_cuentaMouseClicked
-        if(a_cuenta.getText().equals("0"))
-            a_cuenta.setText("");
-    }//GEN-LAST:event_a_cuentaMouseClicked
-
-    private void a_cuentaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_a_cuentaMouseExited
-        if(a_cuenta.getText().equals(""))
-            a_cuenta.setText("0");
-    }//GEN-LAST:event_a_cuentaMouseExited
-
-    private void armazonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_armazonMousePressed
-        if(armazon.getText().equals("0"))
-            armazon.setText("");
-    }//GEN-LAST:event_armazonMousePressed
+    private void a_cuentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_a_cuentaKeyReleased
+        calcularTotalAPagar();
+    }//GEN-LAST:event_a_cuentaKeyReleased
     private void calcularTotalAPagar()
     {
-        if(lente.getText().equals(""))
-             lente.setText("0");
-        if(armazon.getText().equals(""))
-             armazon.setText("0");
-        if(consulta.getText().equals(""))
-            consulta.setText("0");
-        if(descuento.getText().equals("0"))
-            descuento.setText("0");
-        total_2.setText(Integer.toString(Integer.parseInt(lente.getText())+Integer.parseInt(armazon.getText())+Integer.parseInt(consulta.getText())-Integer.parseInt(descuento.getText())));
-        total_a_pagar.setText(total_2.getText());        
+        ;
+        if(!lente_pago.getText().equals(""))
+             costoLente=Integer.parseInt(lente_pago.getText());
+        if(!armazon.getText().equals(""))
+             costoArmazon=Integer.parseInt(armazon.getText());
+        if(!consulta.getText().equals(""))
+            costoConsulta=Integer.parseInt(consulta.getText());
+        if(!descuento.getText().equals(""))
+            costoDescuento=Integer.parseInt(descuento.getText());
+        if(!a_cuenta.getText().equals(""))
+            costoACuenta=Integer.parseInt(a_cuenta.getText());
+        costoTotal=costoLente+costoArmazon+costoConsulta;
+        total_2.setText(Integer.toString(costoTotal));
+        totalAPagar=costoTotal-costoDescuento;
+        total_a_pagar.setText(Integer.toString(totalAPagar));
+        saldo.setText(Integer.toString(totalAPagar-costoACuenta));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField a_cuenta;
     private javax.swing.JTextField altura;
-    private javax.swing.JTextField apellido_cliente;
+    private javax.swing.JComboBox apellido_cliente;
     private javax.swing.JTextField armazon;
     private javax.swing.JTextField audicion;
     private javax.swing.JTextField cDCilindrico;
@@ -662,14 +804,14 @@ public class pedido extends javax.swing.JPanel {
     private javax.swing.JTextField cIEje;
     private javax.swing.JTextField cIEsferico;
     private javax.swing.JComboBox cercaLejos;
-    private javax.swing.JTextField codigo_montura;
-    private javax.swing.JTextField color_lente;
-    private javax.swing.JTextField color_montura;
+    private javax.swing.JComboBox codigo_montura;
+    private javax.swing.JComboBox color_lente;
+    private javax.swing.JComboBox color_montura;
     private javax.swing.JTextField consulta;
     private javax.swing.JTextField d_p_cerca;
     private javax.swing.JTextField d_p_lejos;
     private javax.swing.JTextField descuento;
-    private javax.swing.JTextField doctor;
+    private javax.swing.JComboBox doctor;
     private com.toedter.calendar.JDateChooser fecha_entrega;
     private com.toedter.calendar.JDateChooser fecha_ingreso;
     private javax.swing.JComboBox hora_ini;
@@ -722,19 +864,19 @@ public class pedido extends javax.swing.JPanel {
     private javax.swing.JTextField lIEje;
     private javax.swing.JTextField lIEsferico;
     private javax.swing.JLabel l_dos_puntos;
-    private javax.swing.JTextField lente;
-    private javax.swing.JTextField marca_montura;
-    private javax.swing.JTextField material_lente;
+    private javax.swing.JTextField lente_pago;
+    private javax.swing.JComboBox marca_montura;
+    private javax.swing.JComboBox material_lente;
     private javax.swing.JComboBox minuto_ini;
-    private javax.swing.JTextField nombre_cliente;
+    private javax.swing.JComboBox nombre_cliente;
     private javax.swing.JTextArea observaciones;
     private javax.swing.JTextField saldo;
-    private javax.swing.JTextField tamanio_montura;
+    private javax.swing.JComboBox tamanio_montura;
     private javax.swing.JTextField telefono;
-    private javax.swing.JTextField tipo_lente;
-    private javax.swing.JTextField tipo_montura;
+    private javax.swing.JComboBox tipo_lente;
+    private javax.swing.JComboBox tipo_montura;
     private javax.swing.JTextField total_2;
     private javax.swing.JTextField total_a_pagar;
-    private javax.swing.JTextField vision_lente;
+    private javax.swing.JComboBox vision_lente;
     // End of variables declaration//GEN-END:variables
 }

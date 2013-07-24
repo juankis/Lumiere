@@ -93,7 +93,9 @@ public class Pedido {
     }
     public void guardarEnBD(){
         
-        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega, persona_id, usuario_id_usuario )values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"',"+idCliente+",1)";
+        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega,adicion,altura, d_p_lejos, d_p_cerca,observaciones,estado,doctor, persona_id, usuario_id_usuario )"
+                + "values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"'"
+                + ",'"+audicion+"','"+altura+"','"+d_p_lejos+"','"+d_p_cerca+"','"+observaciones+"','"+estado+"','"+doctor+"',"+idCliente+",1)";
         id=operaciones.guardarYRecuperarId(sql);
    }
     public int getId(){
