@@ -30,12 +30,23 @@ public class Persona {
         this.telefono=telefono;
     }
     public Persona(){
-    
+        
+    }
+    public Persona(int idPersona){
+        id=idPersona;
+        String sql="select * from persona where id="+idPersona;
+        Object[] fila=operaciones.getObject(sql);
+        
+        nombre=""+fila[1];
+        apellido=""+fila[2];
+        telefono=""+fila[3];
+        
     }
     public DefaultComboBoxModel listaNombres(String cadenaEscrita){
         
         String query = "SELECT DISTINCT p.nombre FROM persona p WHERE p.nombre LIKE '" + cadenaEscrita + "%';";
         return operaciones.getModeloCombo(query);
+        
      }
     public DefaultComboBoxModel listaApellidos(String cadenaEscrita){
                 
@@ -47,11 +58,21 @@ public class Persona {
         int id=0;
         String sql="insert into persona(nombre,apellidos,telefono) values('"+nombre+"','"+apellido+"','"+telefono+"')";
         id=operaciones.guardarYRecuperarId(sql);
+        
         this.id=id;
         
     }
       public int getId(){
       return id;
+      }
+      public String getName(){
+          return nombre;
+      }
+      public String getApellido(){
+          return apellido;
+      }
+      public String getTelf(){
+          return telefono;
       }
       /*
     public static void main(String [] arg)

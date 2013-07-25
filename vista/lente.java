@@ -14,6 +14,7 @@ import conexion.*;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import org.jdesktop.swingx.autocomplete.*;
 /**
  *
  * @author juanki
@@ -36,7 +37,7 @@ private Operaciones operaciones=new Operaciones();
     
          */
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "","alejandro", "berenice", "juan", "ana", "bartolo", "diana", "cesar","alejandro", "berenice", "juan", "ana choque", "bartolo", "diana", "cesar choque"  }));
-       // AutoCompleteDecorator.decorate(this.jComboBox1);
+        AutoCompleteDecorator.decorate(this.jComboBox1);
     }
 
     /** This method is called from within the constructor to

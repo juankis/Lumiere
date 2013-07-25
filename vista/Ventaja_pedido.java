@@ -32,6 +32,15 @@ public class Ventaja_pedido extends javax.swing.JDialog {
         pedid.setBounds(0, 0,800,700);
         add(pedid);
      }
+    public void setPedido(Pedido pedido){
+        pedid.setPedido(pedido);
+    }
+    public void setCliente(Persona persona){
+        pedid.setCliente(persona);
+    }
+    public void setPago(Pago pago){
+        pedid.setPago(pago);
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.

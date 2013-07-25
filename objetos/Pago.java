@@ -29,13 +29,40 @@ public class Pago {
         this.descuento=descuento;
         this.idPedido=idPedido;
     }
-       public int getId(){
+    public Pago(int idPedido)
+    {
+        this.idPedido=idPedido;
+        String sql="select * from pago where pedido_id="+idPedido;
+        Object[] fila=operaciones.getObject(sql);
+        if(fila.length!=1){
+        id=(Integer)fila[0];
+        System.out.println(fila[2]);
+        monto_total=Integer.parseInt(""+fila[2]);
+        estado=""+fila[4];
+        a_cuenta=Integer.parseInt(""+fila[5]);
+        descuento=Integer.parseInt(""+fila[6]);
+        }
+    }        
+    public int getId(){
         return id;
+    }
+    public int getIdPedido(){
+        return idPedido;
+    }
+    public int getMontoTotal(){
+        return monto_total;
+    }
+    public int getACuenta(){
+        return a_cuenta;
+    }
+    public int getDescuento(){
+        return descuento;
     }
     public void guardar_en_BD()
     {
         String sql="insert into pago(monto_total,estado,a_cuenta,descuento,pedido_id)"
                 + "values("+monto_total+",'"+estado+"',"+a_cuenta+","+descuento+","+idPedido+")";
+        
         id=operaciones.guardarYRecuperarId(sql);
     }
 }

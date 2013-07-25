@@ -10,11 +10,17 @@
  */
 package vista;
 
+import conexion.Operaciones;
 import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 import objetos.AcomodadorPedidosI;
+import objetos.Pago;
+import objetos.Pedido;
+import objetos.Persona;
 import recusos.JPanelTransparente;
 
 /**
@@ -26,6 +32,7 @@ public class Principal extends javax.swing.JFrame {
     /** Creates new form Principal */
     private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondoEscalado.jpg"));
     private AcomodadorPedidosI acomodador=new AcomodadorPedidosI();
+    private Operaciones operaciones=new Operaciones();
     public Principal() {
         initComponents();
         
@@ -37,6 +44,7 @@ public class Principal extends javax.swing.JFrame {
       //FONDO
         fondo.setBounds(10,10, 293, 367);
         panelPrincipal.add(fondo);
+        operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel());
     }       
 
     @SuppressWarnings("unchecked")
@@ -45,9 +53,10 @@ public class Principal extends javax.swing.JFrame {
 
         panelPrincipal = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        panelPedidos = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaPedidos = new javax.swing.JTable();
+        editarPedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,23 +67,38 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout panelPedidosLayout = new javax.swing.GroupLayout(panelPedidos);
-        panelPedidos.setLayout(panelPedidosLayout);
-        panelPedidosLayout.setHorizontalGroup(
-            panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 195, Short.MAX_VALUE)
-        );
-        panelPedidosLayout.setVerticalGroup(
-            panelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
-        );
-
-        jScrollPane2.setViewportView(panelPedidos);
-
         jButton2.setText("Actualizar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        tablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaPedidos);
+
+        editarPedido.setText("Editar Pedido");
+        editarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarPedidoActionPerformed(evt);
             }
         });
 
@@ -85,26 +109,30 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jButton1))
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jButton2)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(editarPedido)))
+                .addContainerGap())
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(editarPedido)
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -117,7 +145,7 @@ public class Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,6 +161,32 @@ public class Principal extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        acomodador.actualizar();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void editarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPedidoActionPerformed
+         // Nuevamente obtenemos el modelo de la tabla
+        DefaultTableModel modelo = (DefaultTableModel) tablaPedidos.getModel();
+        //ahora obtenemos la fila selccionada
+        int fila_select = tablaPedidos.getSelectedRow();
+        
+       
+        if(fila_select<0){
+            // no se puede eliminar
+            JOptionPane.showMessageDialog(this,"Seleccione un Pedido para Editar.");
+        }else {
+            int id=(Integer)modelo.getValueAt(fila_select, 0);
+            Pedido pedido=new Pedido(id);
+            Persona persona=new Persona(pedido.getIdCliente());
+            Pago pago=new Pago(pedido.getId());
+          // la eliminamos del modelo:
+            Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled);
+            ventana_pedido.setPedido(pedido);
+            ventana_pedido.setCliente(persona);
+            ventana_pedido.setPago(pago);
+            ventana_pedido.setLayout(null);
+            ventana_pedido.setVisible(true);
+        }
+
+    }//GEN-LAST:event_editarPedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,10 +232,11 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton editarPedido;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JPanel panelPedidos;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelPrincipal;
+    private javax.swing.JTable tablaPedidos;
     // End of variables declaration//GEN-END:variables
 }

@@ -103,7 +103,60 @@ public class Operaciones extends Conexion {
     }
       return id;
   }
-          
+   public void getPedidos(DefaultTableModel tableModel) {
+        ResultSet resultado = null;
+        tableModel.setRowCount(0);
+        tableModel.setColumnCount(0);
+        String sql = "SELECT ped.id, per.nombre, per.apellidos, pag.monto_total, pag.descuento, pag.a_cuenta, ped.fecha_ingreso, ped.fecha_entrega"
+                   + " FROM pedido ped, persona per, pago pag"
+                   + " WHERE per.id = ped.persona_id"
+                   + " AND ped.id = pag.pedido_id";
+        try {
+            resultado = consultar(sql);
+            if (resultado != null) {
+                int numeroColumna = resultado.getMetaData().getColumnCount();
+                for (int j = 1; j <= numeroColumna; j++) {
+                    tableModel.addColumn(resultado.getMetaData().getColumnName(j));
+                }
+                int count=0;
+                while (resultado.next()) {
+                    Object[] objetos = new Object[numeroColumna];
+                    for (int i = 1; i <= numeroColumna; i++) {
+                        objetos[i - 1] = resultado.getObject(i);
+                    }
+                    tableModel.addRow(objetos);
+                    
+                }
+                
+            }
+        } catch (SQLException e) {
+        } finally {
+            cerrarConexion();
+        }
+    }
+   public Object[] getObject(String sql) 
+   {
+       Object[] objetos=new Object[1];
+       res=consultar(sql);
+       try{
+       int numeroColumna = res.getMetaData().getColumnCount();
+       objetos = new Object[numeroColumna];
+       if (res.next()) {
+                    
+                    for (int i = 1; i <= numeroColumna; i++) {
+                        objetos[i - 1] = res.getObject(i);
+                    }
+                    
+                    
+                }
+            
+       }catch(SQLException e){
+          JOptionPane.showMessageDialog(null, "" + e.getMessage());      
+       }finally{
+           cerrarConexion();
+       }
+       return objetos;
+   }
 public static void main(String [] args)
 {
     Operaciones o=new Operaciones();

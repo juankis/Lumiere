@@ -57,8 +57,8 @@ public class pedido extends javax.swing.JPanel {
         Date fechaActual=new Date();
         fecha_ingreso.setDate(fechaActual);
         fecha_entrega.setDate(fechaActual);
-        fecha_ingreso.setMinSelectableDate(fechaActual);
-        fecha_entrega.setMinSelectableDate(fechaActual);
+        //fecha_ingreso.setMinSelectableDate(fechaActual);
+        //fecha_entrega.setMinSelectableDate(fechaActual);
         //fondo
         add(fondo,new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0,1000, -1));
         //autocompletes
@@ -791,6 +791,43 @@ public class pedido extends javax.swing.JPanel {
         total_a_pagar.setText(Integer.toString(totalAPagar));
         saldo.setText(Integer.toString(totalAPagar-costoACuenta));
     }
+    public void setPedido(Pedido pedido){
+        cDCilindrico.setText(pedido.getDerCerCil());
+        cDEsferico.setText(pedido.getDerCerEsf());
+        cDEje.setText(pedido.getDerCerEje());
+        cICilindrico.setText(pedido.getIzqCerCil());
+        cIEsferico.setText(pedido.getIzqCerEsf());
+        cIEje.setText(pedido.getIzqCerEje());
+        lDCilindrico.setText(pedido.getDerLejCil());
+        lDEsferico.setText(pedido.getDerLejEsf());
+        lDEje.setText(pedido.getDerLejEje());
+        lICilindrico.setText(pedido.getIzqLejCil());
+        lIEsferico.setText(pedido.getIzqLejEsf());
+        lIEje.setText(pedido.getIzqLejEje());
+        fecha_entrega.setDate(pedido.getFechaEntrega());
+        fecha_ingreso.setDate(pedido.getFechaIngreso());
+        hora_ini.setSelectedItem(pedido.getHoraEntrega().getHours());
+        minuto_ini.setSelectedItem(pedido.getHoraEntrega().getMinutes());
+        observaciones.setText(pedido.getObservaciones());
+        audicion.setText(pedido.getAudicion());
+        altura.setText(pedido.getAltura());
+        d_p_lejos.setText(pedido.getDPLejos());
+        d_p_cerca.setText(pedido.getDPCerca());
+        doctor.getEditor().setItem(pedido.getDoctor());
+    }
+    public void setCliente(Persona persona){
+        nombre_cliente.getEditor().setItem(persona.getName());
+        apellido_cliente.getEditor().setItem(persona.getApellido());
+        telefono.setText(persona.getTelf());
+    }
+    public void setPago(Pago pago){
+        total_2.setText(""+pago.getMontoTotal());
+        descuento.setText(""+pago.getDescuento());
+        a_cuenta.setText(""+pago.getACuenta());
+        total_a_pagar.setText(""+(pago.getMontoTotal()-pago.getDescuento()));
+        saldo.setText(""+((pago.getMontoTotal()-pago.getDescuento())-pago.getACuenta()));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField a_cuenta;
     private javax.swing.JTextField altura;
