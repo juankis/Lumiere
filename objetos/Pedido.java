@@ -143,6 +143,7 @@ public class Pedido {
             System.out.println("pedido es nulllll");
         }
     }
+    public Pedido(){}
     public void guardarEnBD(){
         
         String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega,adicion,altura, d_p_lejos, d_p_cerca,observaciones,estado,doctor, persona_id, usuario_id_usuario )"
@@ -221,6 +222,111 @@ public class Pedido {
     }
     public int getIdCliente(){
         return idCliente;
+    }
+    public void setFechaEntrega(Date fe){
+        fecha_entrega=fe;
+    }
+    public void setFechaIngreso(Date fi){
+        fecha_ingreso=fi;
+    }
+    public void setHoraEntrega(Time he){
+        hora_entrega=he;
+    }
+    public void setDerCerEsf(String dce){
+        Der_cerca_esfer=dce;
+    }
+    public void setDerCerCil(String dcc){
+        Der_cerca_cilin=dcc;
+    }
+    public void setDerCerEje(String dce){
+        Der_cerca_eje=dce;
+    }
+    public void setIzqCerEsf(String ice){
+        Izq_cerca_esfer=ice;
+    }
+    public void setIzqCerCil(String icl){
+        Izq_cerca_cilin=icl;
+    }
+    public void setIzqCerEje(String ice){
+        Izq_cerca_eje=ice;
+    }
+    public void setDerLejEsf(String dle){
+        Der_lejos_esfer=dle;
+    }
+    public void setDerLejCil(String dlc){
+        Der_lejos_cilin=dlc;
+    }
+    public void setDerLejEje(String dle){
+        Der_lejos_eje=dle;
+    }
+    public void setIzqLejEsf(String ile){
+        Izq_lejos_esfer=ile;
+    }
+    public void setIzqLejCil(String ilc){
+        Izq_lejos_cilin=ilc;
+    }
+    public void setIzqLejEje(String ile){
+        Izq_lejos_eje=ile;
+    }
+    public void setAudicion(String aud){
+        audicion=aud;
+    }
+    public void setAltura(String alt){
+        altura=alt;
+    }
+    public void setDPLejos(String dpl){
+        d_p_lejos=dpl;
+    }
+    public void setDPCerca(String dpc){
+        d_p_cerca=dpc;
+    }
+    public void setObservaciones(String obs){
+        observaciones=obs;
+    }
+    public void setEstado(String est){
+        estado=est;
+    }
+    public void setDoctor(String doc){
+       doctor=doc;
+    }
+    public void setIdCliente(int id){
+        idCliente=id;
+    }
+    public void actualizar(){
+        String sql="UPDATE pedido "
+                + "SET"
+        + " fecha_ingreso='"+new java.sql.Date(fecha_ingreso.getTime())+"',"
+        + " fecha_entrega='"+new java.sql.Date(fecha_entrega.getTime())+"',"
+        + " hora_entrega='"+new java.sql.Time(hora_entrega.getTime())+"',"
+        
+        + " Der_lejos_esfer='"+Der_lejos_esfer+"',"
+        + " Der_lejos_cilin='"+Der_lejos_cilin+"',"
+        + " Der_lejos_eje='"+Der_lejos_eje+"',"
+        
+        + " Izq_lejos_esfer='"+Izq_lejos_esfer+"',"
+        + " Izq_lejos_cilin='"+Izq_lejos_cilin+"',"
+        + " Izq_lejos_eje='"+Izq_lejos_eje+"',"
+        
+        + " Der_cerca_esfer='"+Der_cerca_esfer+"',"
+        + " Der_cerca_cilin='"+Der_cerca_cilin+"',"
+        + " Der_cerca_eje='"+Der_cerca_eje+"',"
+       
+        + " Izq_cerca_esfer='"+Izq_cerca_esfer+"'," 
+        + " Izq_cerca_cilin='"+Izq_cerca_cilin+"',"
+        + " Izq_cerca_eje='"+Izq_cerca_eje+"',"
+       
+       
+        + " adicion='"+audicion+"',"
+        + " altura='"+altura+"',"
+        + " d_p_lejos='"+d_p_lejos+"',"
+        + " d_p_cerca='"+d_p_cerca+"',"
+        + " observaciones='"+observaciones+"',"
+        + " estado='"+estado+"',"
+        + " doctor='"+doctor+"',"
+        + " persona_id="+idCliente+","
+        + " usuario_id_usuario="+idUsuario
+                + " WHERE id ="+id;
+      operaciones.insertar(sql);
     }
     /*
      this.audicion=""+fila[16];

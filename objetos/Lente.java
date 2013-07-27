@@ -37,6 +37,19 @@ public class Lente {
     public Lente(){
     
     }
+    public Lente(int idPedido){
+        this.idPedido=idPedido;
+        String sql="select * from lente where pedido_id="+idPedido;
+        Object[] fila=operaciones.getObject(sql);
+        if(fila.length!=1){
+        id=(Integer)fila[0];
+        material=""+fila[2];
+        tipo=""+fila[3];
+        color=""+fila[4];
+        vision=""+fila[5];
+        estado=""+fila[6];
+        }
+    }
     public DefaultComboBoxModel listaMateriales(String cadenaEscrita){
         
         String query = "SELECT DISTINCT l.material FROM lente l WHERE l.material LIKE '" + cadenaEscrita + "%';";
@@ -63,7 +76,47 @@ public class Lente {
                 + "values('"+material+"','"+tipo+"','"+color+"','"+vision+"','"+estado+"',"+idPedido+")";
         id=operaciones.guardarYRecuperarId(sql);
     }
-      public int getId(){
+    public int getId(){
         return id;
+    }
+    public String getMaterial(){
+        return material;
+    }
+    public String getTipo(){
+        return tipo;
+    }
+    public String getColor(){
+        return color;
+    }
+    public String getVision(){
+        return vision;
+    }
+    public String getEstado(){
+        return estado;
+    }
+    public void setMaterial(String m){
+        material=m;
+    }
+    public void setTipo(String t){
+        tipo=t;
+    }
+    public void setColor(String c){
+        color=c;
+    }
+    public void setVision(String v){
+        vision=v;
+    }
+    public void setEstado(String e){
+        estado=e;
+    }
+    public void actualizar(){
+        String sql="UPDATE lente "
+                + "SET material ='"+material+"',"
+                + "estado = '"+estado+"',"
+                + "tipo ='"+tipo+"',"
+                + "color ='"+color+"',"
+                + "vision ='"+vision+"'"
+                + " WHERE id ="+id;
+      operaciones.insertar(sql);
     }
 }

@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import objetos.AcomodadorPedidosI;
+import objetos.Lente;
+import objetos.Montura;
 import objetos.Pago;
 import objetos.Pedido;
 import objetos.Persona;
@@ -30,7 +32,7 @@ import recusos.JPanelTransparente;
 public class Principal extends javax.swing.JFrame {
 
     /** Creates new form Principal */
-    private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondoEscalado.jpg"));
+    private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondo.jpg"));
     private AcomodadorPedidosI acomodador=new AcomodadorPedidosI();
     private Operaciones operaciones=new Operaciones();
     public Principal() {
@@ -42,7 +44,7 @@ public class Principal extends javax.swing.JFrame {
     }
     private void iniciarComponentes(){
       //FONDO
-        fondo.setBounds(10,10, 293, 367);
+        fondo.setBounds(0,0, 615, 570);
         panelPrincipal.add(fondo);
         operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel());
     }       
@@ -52,25 +54,25 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         panelPrincipal = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        nuevoPedido = new javax.swing.JButton();
+        actualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPedidos = new javax.swing.JTable();
         editarPedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Nuevo Pedido");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        nuevoPedido.setText("Nuevo Pedido");
+        nuevoPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                nuevoPedidoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Actualizar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        actualizar.setText("Actualizar");
+        actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                actualizarActionPerformed(evt);
             }
         });
 
@@ -110,9 +112,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jButton1)
+                        .addComponent(nuevoPedido)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2))
+                        .addComponent(actualizar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
@@ -126,8 +128,8 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(nuevoPedido)
+                    .addComponent(actualizar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -151,16 +153,17 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void nuevoPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoPedidoActionPerformed
         Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled);
+        ventana_pedido.setNuevoPedido(true);
         ventana_pedido.setLayout(null);
         ventana_pedido.setVisible(true);
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_nuevoPedidoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       acomodador.actualizar();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+      operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel());
+    }//GEN-LAST:event_actualizarActionPerformed
 
     private void editarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPedidoActionPerformed
          // Nuevamente obtenemos el modelo de la tabla
@@ -177,11 +180,15 @@ public class Principal extends javax.swing.JFrame {
             Pedido pedido=new Pedido(id);
             Persona persona=new Persona(pedido.getIdCliente());
             Pago pago=new Pago(pedido.getId());
+            Lente lente=new Lente(pedido.getId());
+            Montura montura=new Montura(pedido.getId());
           // la eliminamos del modelo:
             Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled);
             ventana_pedido.setPedido(pedido);
             ventana_pedido.setCliente(persona);
             ventana_pedido.setPago(pago);
+            ventana_pedido.setLente(lente);
+            ventana_pedido.setMontura(montura);
             ventana_pedido.setLayout(null);
             ventana_pedido.setVisible(true);
         }
@@ -232,10 +239,10 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar;
     private javax.swing.JButton editarPedido;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton nuevoPedido;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTable tablaPedidos;
     // End of variables declaration//GEN-END:variables

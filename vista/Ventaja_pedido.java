@@ -21,6 +21,7 @@ public class Ventaja_pedido extends javax.swing.JDialog {
         detalle_cuenta det_cuenta;
         montura_armazon mon_arm;
         lente lent;
+        
     public Ventaja_pedido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -29,7 +30,7 @@ public class Ventaja_pedido extends javax.swing.JDialog {
     }
     public void iniciar_componentes(){
         pedid=new pedido();
-        pedid.setBounds(0, 0,800,700);
+        pedid.setBounds(0, 0,900,700);
         add(pedid);
      }
     public void setPedido(Pedido pedido){
@@ -40,6 +41,12 @@ public class Ventaja_pedido extends javax.swing.JDialog {
     }
     public void setPago(Pago pago){
         pedid.setPago(pago);
+    }
+    public void setLente(Lente lente){
+        pedid.setLente(lente);
+    }
+    public void setMontura(Montura montura){
+        pedid.setMontura(montura);
     }
 
     /** This method is called from within the constructor to
@@ -79,7 +86,7 @@ public class Ventaja_pedido extends javax.swing.JDialog {
                 .addComponent(guardar)
                 .addGap(46, 46, 46)
                 .addComponent(cancelar)
-                .addContainerGap(384, Short.MAX_VALUE))
+                .addContainerGap(466, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +110,9 @@ public class Ventaja_pedido extends javax.swing.JDialog {
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         dispose();
     }//GEN-LAST:event_cancelarActionPerformed
-
+    public void setNuevoPedido(boolean nuevoPedido){
+        pedid.setNuevoPedido(nuevoPedido);
+    }
     /**
      * @param args the command line arguments
      */

@@ -74,6 +74,24 @@ public class Persona {
       public String getTelf(){
           return telefono;
       }
+      public void setName(String n){
+          nombre=n;
+      }
+      public void setApellido(String a){
+          apellido=a;
+      }
+      public void setTelf(String t){
+          telefono=t;
+      }
+      public void actualizar(){
+        String sql="UPDATE persona "
+                + "SET"
+                + " nombre ='"+nombre+"',"
+                + "apellidos ='"+apellido+"',"
+                + "telefono ="+telefono
+                + " WHERE id ="+id;
+      operaciones.insertar(sql);
+    }
       /*
     public static void main(String [] arg)
     {

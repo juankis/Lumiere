@@ -39,6 +39,20 @@ public class Montura {
     public Montura(){
     
     }
+    public Montura(int idPedido){
+        this.idPedido=idPedido;
+        String sql="select * from montura where pedido_id="+idPedido;
+        Object[] fila=operaciones.getObject(sql);
+        if(fila.length!=1){
+        id=(Integer)fila[0];
+        marca=""+fila[2];
+        codigo=""+fila[3];
+        color=""+fila[4];
+        tipo=""+fila[5];
+        tamanio=""+fila[6];
+        estado=""+fila[7];
+        }
+    }
     public DefaultComboBoxModel listaMarcas(String cadenaEscrita){
         
         String query = "SELECT DISTINCT m.marca FROM montura m WHERE m.marca LIKE '" + cadenaEscrita + "%';";
@@ -72,5 +86,52 @@ public class Montura {
         String sql="insert into montura(marca,color,tipo,tamanio,estado,codigo,pedido_id)"
                 + "values('"+marca+"','"+color+"','"+tipo+"','"+tamanio+"','"+estado+"','"+codigo+"',"+idPedido+")";
         id=operaciones.guardarYRecuperarId(sql);
+    }
+    public String getMarca(){
+        return marca;
+    }
+    public String getCodigo(){
+        return codigo;
+    }
+    public String getColor(){
+        return color;
+    }
+    public String getTipo(){
+        return tipo;
+    }
+    public String getTamanio(){
+        return tamanio;
+    }
+    public String getEstado(){
+        return estado;
+    }
+    public void setMarca(String m){
+        marca=m;
+    }
+    public void setCodigo(String c){
+        codigo=c;
+    }
+    public void setColor(String c){
+        color=c;
+    }
+    public void setTipo(String t){
+        tipo=t;
+    }
+    public void setTamanio(String t){
+        tamanio=t;
+    }
+    public void setEstado(String e){
+        estado=e;
+    }
+    public void actualizar(){
+        String sql="UPDATE montura "
+                + "SET marca ='"+marca+"',"
+                + "codigo ='"+codigo+"',"
+                + "color ='"+color+"',"
+                + "tipo ='"+tipo+"',"
+                + "tamanio ='"+tamanio+"',"
+                + "estado = '"+estado+"'"
+                + " WHERE id ="+id;
+      operaciones.insertar(sql);
     }
 }

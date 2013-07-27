@@ -54,7 +54,7 @@ public class Operaciones extends Conexion {
         return modelo;
   }    
   public boolean insertar(String sql) {
-     
+    System.out.println(sql);
     boolean valor = true;
     conectar();
     try {
