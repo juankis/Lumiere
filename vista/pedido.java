@@ -47,17 +47,15 @@ public class pedido extends javax.swing.JPanel {
     private Montura montura=new Montura();
     private Lente lente=new Lente();
     private Pago pago=new Pago();
-    
+    private Usuario usuario;
     private Boolean nuevoPedido=false;
-    public pedido() {
-       
+    public pedido(Usuario usuario){ 
         initComponents();
-        
+        this.usuario=usuario;
         valoresPorDefecto();
-        
     }
     public void valoresPorDefecto(){
-        
+        bienvenidaUsuario.setText(usuario.getLogin());
        // jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         //fechas
         Date fechaActual=new Date();
@@ -327,6 +325,7 @@ public class pedido extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         apellido_cliente = new javax.swing.JComboBox();
         nombre_cliente = new javax.swing.JComboBox();
+        bienvenidaUsuario = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -642,6 +641,10 @@ public class pedido extends javax.swing.JPanel {
 
         nombre_cliente.setEditable(true);
         add(nombre_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 240, -1));
+
+        bienvenidaUsuario.setFont(new java.awt.Font("Verdana", 3, 24)); // NOI18N
+        bienvenidaUsuario.setText("NameUsuario");
+        add(bienvenidaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 30, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
     public boolean validaPedidoYGuardar(){
         boolean exito=false;
@@ -771,7 +774,7 @@ public class pedido extends javax.swing.JPanel {
         this.nuevoPedido=nuevoPedido;
     }
     private void guardarPedido(){
-       Usuario usuario=new Usuario("juankiss", "juankiss", "conectado:D");
+       
        Persona persona =new Persona(getString(nombre_cliente), getString(apellido_cliente), telefono.getText());
        persona.guardar_en_BD();
        
@@ -953,6 +956,7 @@ public class pedido extends javax.swing.JPanel {
     private javax.swing.JComboBox apellido_cliente;
     private javax.swing.JTextField armazon;
     private javax.swing.JTextField audicion;
+    private javax.swing.JLabel bienvenidaUsuario;
     private javax.swing.JTextField cDCilindrico;
     private javax.swing.JTextField cDEje;
     private javax.swing.JTextField cDEsferico;

@@ -23,6 +23,7 @@ import objetos.Montura;
 import objetos.Pago;
 import objetos.Pedido;
 import objetos.Persona;
+import objetos.Usuario;
 import recusos.JPanelTransparente;
 
 /**
@@ -35,15 +36,17 @@ public class Principal extends javax.swing.JFrame {
     private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondo.jpg"));
     private AcomodadorPedidosI acomodador=new AcomodadorPedidosI();
     private Operaciones operaciones=new Operaciones();
-    public Principal() {
+    private Usuario usuario;
+    public Principal(Usuario usuario) {
         initComponents();
-        
+        this.usuario=usuario;
         
        
         iniciarComponentes();
     }
     private void iniciarComponentes(){
-      //FONDO
+      bienvenidaUsuario.setText(usuario.getLogin());
+        //FONDO
         fondo.setBounds(0,0, 615, 570);
         panelPrincipal.add(fondo);
         operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel());
@@ -59,6 +62,8 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPedidos = new javax.swing.JTable();
         editarPedido = new javax.swing.JButton();
+        bienvenidaUsuario = new javax.swing.JLabel();
+        cerrarSecion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,29 +109,47 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        bienvenidaUsuario.setFont(new java.awt.Font("Verdana", 3, 24));
+        bienvenidaUsuario.setText("NameUsuario");
+
+        cerrarSecion.setText("Cerrar Secion");
+        cerrarSecion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cerrarSecionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(nuevoPedido)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(actualizar))
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(nuevoPedido)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(actualizar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                            .addComponent(editarPedido))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE))
-                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(editarPedido)))
-                .addContainerGap())
+                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cerrarSecion)
+                            .addComponent(bienvenidaUsuario))
+                        .addGap(26, 26, 26))))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
+                .addComponent(bienvenidaUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cerrarSecion)
+                .addGap(39, 39, 39)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nuevoPedido)
                     .addComponent(actualizar))
@@ -134,7 +157,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(editarPedido)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,7 +177,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nuevoPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoPedidoActionPerformed
-        Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled);
+        Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario);
         ventana_pedido.setNuevoPedido(true);
         ventana_pedido.setLayout(null);
         ventana_pedido.setVisible(true);
@@ -183,7 +206,7 @@ public class Principal extends javax.swing.JFrame {
             Lente lente=new Lente(pedido.getId());
             Montura montura=new Montura(pedido.getId());
           // la eliminamos del modelo:
-            Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled);
+            Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario);
             ventana_pedido.setPedido(pedido);
             ventana_pedido.setCliente(persona);
             ventana_pedido.setPago(pago);
@@ -195,10 +218,17 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_editarPedidoActionPerformed
 
+    private void cerrarSecionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarSecionActionPerformed
+        menuPrincipal ventanaLogin=new menuPrincipal();
+        ventanaLogin.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_cerrarSecionActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    
+    //public static void main(String args[]) {
           /*
          * Set the Nimbus look and feel
          */
@@ -208,6 +238,7 @@ public class Principal extends javax.swing.JFrame {
          * default look and feel. For details see
          * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
+    /*
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -229,7 +260,7 @@ public class Principal extends javax.swing.JFrame {
         /*
          * Create and display the form
          */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+      /*  java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
                 Principal ventana=new Principal();
@@ -237,9 +268,11 @@ public class Principal extends javax.swing.JFrame {
                 ventana.setVisible(true);
             }
         });
-    }
+    }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton actualizar;
+    private javax.swing.JLabel bienvenidaUsuario;
+    private javax.swing.JButton cerrarSecion;
     private javax.swing.JButton editarPedido;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton nuevoPedido;

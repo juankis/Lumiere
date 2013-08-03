@@ -67,9 +67,23 @@ public class Operaciones extends Conexion {
     }
     return valor;
   }
-  
+    public int validarUsuario(String login,String password) {
+    String sql="SELECT * FROM usuario WHERE  login='"+login+"'  AND password='"+password+"'";
+    int id=0;
+    res=consultar(sql);
+    try {
+      if(res.next())
+        id=(Integer)res.getObject(1);        
+    }catch(SQLException e){
+      JOptionPane.showMessageDialog(null, e.getMessage());
+    } finally {
+        cerrarConexion();
+    }
+    return id;
+    }
   public ResultSet consultar(String sql) {
-    conectar();
+    System.out.println(sql);
+      conectar();
     ResultSet resultado = null;
     try {
       resultado = consulta.executeQuery(sql);
@@ -157,9 +171,12 @@ public class Operaciones extends Conexion {
        }
        return objetos;
    }
+   /*
 public static void main(String [] args)
 {
     Operaciones o=new Operaciones();
     o.insertar("insert into persona(nombre,apellidos,telefono)values('lalal','lalala','878')");
 }
+    * 
+    */
 }

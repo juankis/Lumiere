@@ -10,15 +10,26 @@
  */
 package vista;
 
+import conexion.Operaciones;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import objetos.Usuario;
+
 /**
  *
  * @author juanki
  */
+
 public class Login_usuario extends javax.swing.JPanel {
 
     /** Creates new form Login_usuario */
-    public Login_usuario() {
+    private menuPrincipal inicio;
+    private Operaciones operaciones=new Operaciones();
+    private Principal principal;
+    private Usuario usuario;
+    public Login_usuario(menuPrincipal ventanaPrincipal) {
         initComponents();
+        inicio =ventanaPrincipal;
     }
 
     /** This method is called from within the constructor to
@@ -30,17 +41,109 @@ public class Login_usuario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        login = new javax.swing.JTextField();
+        ingresar = new javax.swing.JButton();
+        nuevoUsuario = new javax.swing.JButton();
+        password = new javax.swing.JPasswordField();
+
+        jLabel1.setText("Login");
+
+        jLabel2.setText("Password");
+
+        ingresar.setText("Ingresar");
+        ingresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ingresarActionPerformed(evt);
+            }
+        });
+
+        nuevoUsuario.setText("Nuevo Usuario");
+        nuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoUsuarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(login, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(ingresar)
+                        .addGap(18, 18, 18)
+                        .addComponent(nuevoUsuario)))
+                .addGap(131, 131, 131))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ingresar)
+                    .addComponent(nuevoUsuario))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void nuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoUsuarioActionPerformed
+        inicio.setVisibleFalsoTodos();
+        inicio.registrarnuevoUsuario();
+    }//GEN-LAST:event_nuevoUsuarioActionPerformed
+
+    private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
+        if(validarDatosUsuario()){
+            int id=validarUsuario();
+            if(id!=0){
+                usuario=new Usuario(id);
+                inicio.dispose();
+                principal=new Principal(usuario);
+                principal.setVisible(true);    
+            }else
+                JOptionPane.showMessageDialog(null, "el login n es correcto");
+        }
+    }//GEN-LAST:event_ingresarActionPerformed
+    private boolean validarDatosUsuario(){
+        boolean validacion=false;
+        if(!login.getText().equals(""))
+            if(!password.getText().equals(""))
+                validacion=true;
+            else          
+                JOptionPane.showMessageDialog(null, "la contraseña no es valida");
+        else 
+            JOptionPane.showMessageDialog(null, "el nombre de usuario no es valido");    
+        return validacion;
+    }
+    private int validarUsuario(){
+        return operaciones.validarUsuario(login.getText(),password.getText());                   
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ingresar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField login;
+    private javax.swing.JButton nuevoUsuario;
+    private javax.swing.JPasswordField password;
     // End of variables declaration//GEN-END:variables
 }

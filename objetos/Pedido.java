@@ -146,8 +146,12 @@ public class Pedido {
     public Pedido(){}
     public void guardarEnBD(){
         
-        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega,adicion,altura, d_p_lejos, d_p_cerca,observaciones,estado,doctor, persona_id, usuario_id_usuario )"
+        String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega,der_cerca_cilin,der_cerca_eje,der_cerca_esfer,der_lejos_cilin,der_lejos_eje,der_lejos_esfer,"
+                + "izq_cerca_cilin,izq_cerca_eje,izq_cerca_esfer,izq_lejos_cilin,izq_lejos_eje,izq_lejos_esfer,"
+                + "adicion,altura, d_p_lejos, d_p_cerca,observaciones,estado,doctor, persona_id, usuario_id_usuario )"
                 + "values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"'"
+                + ",'"+Der_cerca_cilin+"','"+Der_cerca_eje+"','"+Der_cerca_esfer+"','"+Der_lejos_cilin+"','"+Der_lejos_eje+"','"+Der_lejos_esfer+"'"
+                + ",'"+Izq_cerca_cilin+"','"+Izq_cerca_eje+"','"+Izq_cerca_esfer+"','"+Izq_lejos_cilin+"','"+Izq_lejos_eje+"','"+Izq_lejos_esfer+"'"
                 + ",'"+audicion+"','"+altura+"','"+d_p_lejos+"','"+d_p_cerca+"','"+observaciones+"','"+estado+"','"+doctor+"',"+idCliente+",1)";
         id=operaciones.guardarYRecuperarId(sql);
    }

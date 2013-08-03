@@ -17,19 +17,20 @@ import objetos.*;
 public class Ventaja_pedido extends javax.swing.JDialog {
 
     /** Creates new form Ventaja_pedido */
-    pedido pedid;
-        detalle_cuenta det_cuenta;
-        montura_armazon mon_arm;
-        lente lent;
-        
-    public Ventaja_pedido(java.awt.Frame parent, boolean modal) {
+        private pedido pedid;
+        private detalle_cuenta det_cuenta;
+        private montura_armazon mon_arm;
+        private lente lent;
+        private Usuario usuario;
+    public Ventaja_pedido(java.awt.Frame parent, boolean modal,Usuario usuario) {
         super(parent, modal);
+        this.usuario=usuario;
         initComponents();
         iniciar_componentes();
         setLayout(null);
     }
     public void iniciar_componentes(){
-        pedid=new pedido();
+        pedid=new pedido(usuario);
         pedid.setBounds(0, 0,900,700);
         add(pedid);
      }

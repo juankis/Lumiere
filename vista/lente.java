@@ -195,7 +195,8 @@ private Operaciones operaciones=new Operaciones();
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
- public static void main(String args[]) {
+ 
+    /*public static void main(String args[]) {
           /*
          * Set the Nimbus look and feel
          */
@@ -205,7 +206,7 @@ private Operaciones operaciones=new Operaciones();
          * default look and feel. For details see
          * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
-        try {
+      /*  try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -226,7 +227,7 @@ private Operaciones operaciones=new Operaciones();
         /*
          * Create and display the form
          */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+      /*  java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
                 JFrame ventana=new JFrame();
@@ -236,5 +237,5 @@ private Operaciones operaciones=new Operaciones();
                 ventana.setVisible(true);
             }
         });
-    }
+    }*/
 }
