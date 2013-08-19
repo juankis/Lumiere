@@ -37,33 +37,93 @@ public class Principal extends javax.swing.JFrame {
     private AcomodadorPedidosI acomodador=new AcomodadorPedidosI();
     private Operaciones operaciones=new Operaciones();
     private Usuario usuario;
+    private SaldarCuenta saldarCuenta;
     public Principal(Usuario usuario) {
         initComponents();
         this.usuario=usuario;
-        
-       
         iniciarComponentes();
     }
     private void iniciarComponentes(){
-      bienvenidaUsuario.setText(usuario.getLogin());
+        bienvenidaUsuario.setText(usuario.getLogin());
         //FONDO
-        fondo.setBounds(0,0, 615, 570);
+        fondo.setBounds(0,0, 680, 650);
         panelPrincipal.add(fondo);
-        operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel());
-    }       
-
+        llenarTablaPedidos("");
+        panelFiltrar4.setVisible(false);
+    }
+    public void llenarTablaPedidos(String join){
+        
+    String sql = "SELECT ped.id as IdPedido, per.nombre, per.apellidos, (pag.monto_total - pag.descuento - pag.a_cuenta) as Saldo, ped.fecha_ingreso, ped.fecha_entrega,usu.login"
+                   + " FROM pedido ped, persona per, pago pag, usuario usu"
+                   + " WHERE per.id = ped.persona_id"
+                   + " AND ped.usuario_id_usuario = usu.id_usuario"
+                   + " AND ped.id = pag.pedido_id"+join;
+    operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel(),sql);
+    
+    }
+    public void saldarCuenta(){
+        
+        int id=idSeleccionadoEnTabla();
+        if(id!=0){
+            saldarCuenta=new SaldarCuenta(this, rootPaneCheckingEnabled);
+            Pedido pedid=new Pedido(id);
+            Persona cliente=new Persona(pedid.getIdCliente());
+            Pago pago=new Pago(pedid.getId());
+            saldarCuenta.setPedido(pedid);
+            saldarCuenta.setCliente(cliente);
+            saldarCuenta.setPago(pago);
+            saldarCuenta.mostrarCuenta();
+            if(pago.getSaldo()==0)
+                JOptionPane.showMessageDialog(this,"La Cuenta ya esta Saldada");
+            else
+                saldarCuenta.setVisible(true);
+        }
+    }
+    public int idSeleccionadoEnTabla(){
+        // Nuevamente obtenemos el modelo de la tabla
+        int id=0;
+        DefaultTableModel modelo = (DefaultTableModel) tablaPedidos.getModel();
+        //ahora obtenemos la fila selccionada
+        int fila_select = tablaPedidos.getSelectedRow();
+        if(fila_select<0){
+            // no se puede eliminar
+            JOptionPane.showMessageDialog(this,"SSeleccione un Pedido de la tabla de Pedidos");
+        }else {
+             id=(Integer)modelo.getValueAt(fila_select, 0);   
+        }
+        return id;
+    }
+    public void llenarComboUsuarios(){
+        String sql="select usu.login from usuario usu";
+        operaciones.llenarCombo(comboUsuarios,sql);
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
         panelPrincipal = new javax.swing.JPanel();
         nuevoPedido = new javax.swing.JButton();
-        actualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPedidos = new javax.swing.JTable();
-        editarPedido = new javax.swing.JButton();
+        verPedido = new javax.swing.JButton();
         bienvenidaUsuario = new javax.swing.JLabel();
         cerrarSecion = new javax.swing.JButton();
+        filtrarPedidos = new javax.swing.JButton();
+        panelFiltrar4 = new javax.swing.JPanel();
+        pedidosConSaldo = new javax.swing.JRadioButton();
+        filtrar4 = new javax.swing.JButton();
+        pedidosPendientes = new javax.swing.JRadioButton();
+        pedidosEntregados = new javax.swing.JRadioButton();
+        pedidosCancelados = new javax.swing.JRadioButton();
+        ocultar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        comboUsuarios = new javax.swing.JComboBox();
+        saldarPedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,13 +131,6 @@ public class Principal extends javax.swing.JFrame {
         nuevoPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nuevoPedidoActionPerformed(evt);
-            }
-        });
-
-        actualizar.setText("Actualizar");
-        actualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualizarActionPerformed(evt);
             }
         });
 
@@ -102,10 +155,10 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaPedidos);
 
-        editarPedido.setText("Editar Pedido");
-        editarPedido.addActionListener(new java.awt.event.ActionListener() {
+        verPedido.setText("Ver Pedido");
+        verPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarPedidoActionPerformed(evt);
+                verPedidoActionPerformed(evt);
             }
         });
 
@@ -119,110 +172,240 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        filtrarPedidos.setText("Filtrar Pedidos");
+        filtrarPedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtrarPedidosActionPerformed(evt);
+            }
+        });
+
+        panelFiltrar4.setBackground(new java.awt.Color(255, 255, 204));
+
+        pedidosConSaldo.setText("Pedidos con saldo");
+
+        filtrar4.setText("Filtrar");
+        filtrar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtrar4ActionPerformed(evt);
+            }
+        });
+
+        pedidosPendientes.setText("Pedido pendientes");
+
+        pedidosEntregados.setText("Pedidos entregados");
+
+        pedidosCancelados.setText("Pedidos cancelados");
+
+        ocultar.setText("ocultar");
+        ocultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ocultarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Pedidos Realizados por");
+
+        comboUsuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "todos" }));
+
+        javax.swing.GroupLayout panelFiltrar4Layout = new javax.swing.GroupLayout(panelFiltrar4);
+        panelFiltrar4.setLayout(panelFiltrar4Layout);
+        panelFiltrar4Layout.setHorizontalGroup(
+            panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pedidosConSaldo)
+                            .addComponent(pedidosCancelados)))
+                    .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
+                .addGap(2, 2, 2)
+                .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ocultar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                        .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pedidosEntregados)
+                            .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(comboUsuarios, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pedidosPendientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(292, 292, 292)
+                        .addComponent(filtrar4)))
+                .addContainerGap())
+        );
+        panelFiltrar4Layout.setVerticalGroup(
+            panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(comboUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelFiltrar4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                        .addComponent(pedidosConSaldo)
+                        .addGap(2, 2, 2)
+                        .addComponent(pedidosCancelados))
+                    .addGroup(panelFiltrar4Layout.createSequentialGroup()
+                        .addComponent(pedidosPendientes)
+                        .addGap(2, 2, 2)
+                        .addComponent(pedidosEntregados))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFiltrar4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ocultar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(filtrar4)
+                .addContainerGap())
+        );
+
+        saldarPedido.setText("Saldar Pedido");
+        saldarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saldarPedidoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addGap(448, 448, 448)
+                        .addComponent(bienvenidaUsuario))
+                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelFiltrar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
                                 .addComponent(nuevoPedido)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(actualizar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
-                            .addComponent(editarPedido))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
-                        .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cerrarSecion)
-                            .addComponent(bienvenidaUsuario))
-                        .addGap(26, 26, 26))))
+                                .addGap(6, 6, 6)
+                                .addComponent(verPedido)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saldarPedido)
+                                .addGap(29, 29, 29)
+                                .addComponent(filtrarPedidos)
+                                .addGap(80, 80, 80)
+                                .addComponent(cerrarSecion)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addComponent(bienvenidaUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cerrarSecion)
-                .addGap(39, 39, 39)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(6, 6, 6)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nuevoPedido)
-                    .addComponent(actualizar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(verPedido)
+                        .addComponent(saldarPedido))
+                    .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cerrarSecion)
+                        .addComponent(filtrarPedidos)))
+                .addGap(18, 18, 18)
+                .addComponent(panelFiltrar4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(editarPedido)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void nuevoPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoPedidoActionPerformed
-        Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario);
-        ventana_pedido.setNuevoPedido(true);
-        ventana_pedido.setLayout(null);
+        Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario,operaciones,false,this);
+        //ventana_pedido.setNuevoPedido(true);
+        //ventana_pedido.setLayout(null);
         ventana_pedido.setVisible(true);
         
     }//GEN-LAST:event_nuevoPedidoActionPerformed
 
-    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
-      operaciones.getPedidos((DefaultTableModel) tablaPedidos.getModel());
-    }//GEN-LAST:event_actualizarActionPerformed
-
-    private void editarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPedidoActionPerformed
-         // Nuevamente obtenemos el modelo de la tabla
-        DefaultTableModel modelo = (DefaultTableModel) tablaPedidos.getModel();
-        //ahora obtenemos la fila selccionada
-        int fila_select = tablaPedidos.getSelectedRow();
-        
-       
-        if(fila_select<0){
-            // no se puede eliminar
-            JOptionPane.showMessageDialog(this,"Seleccione un Pedido para Editar.");
-        }else {
-            int id=(Integer)modelo.getValueAt(fila_select, 0);
-            Pedido pedido=new Pedido(id);
-            Persona persona=new Persona(pedido.getIdCliente());
-            Pago pago=new Pago(pedido.getId());
-            Lente lente=new Lente(pedido.getId());
-            Montura montura=new Montura(pedido.getId());
+    private void verPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verPedidoActionPerformed
+        int id=idSeleccionadoEnTabla();
+        if(id!=0){
+            
+            
+            
           // la eliminamos del modelo:
-            Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario);
+           /* Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario,operaciones,true,this);
             ventana_pedido.setPedido(pedido);
             ventana_pedido.setCliente(persona);
             ventana_pedido.setPago(pago);
             ventana_pedido.setLente(lente);
             ventana_pedido.setMontura(montura);
+            
+            ventana_pedido.presionarBotonGuardarCliente();
+            
+             * 
+             * */
+            Ventaja_pedido ventana_pedido=new Ventaja_pedido(this, rootPaneCheckingEnabled,usuario,operaciones,true,this);
+            ventana_pedido.setIdPedido(id);
+            ventana_pedido.iniciar_componentesEdicion();
             ventana_pedido.setLayout(null);
             ventana_pedido.setVisible(true);
         }
 
-    }//GEN-LAST:event_editarPedidoActionPerformed
+    }//GEN-LAST:event_verPedidoActionPerformed
 
     private void cerrarSecionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarSecionActionPerformed
         menuPrincipal ventanaLogin=new menuPrincipal();
         ventanaLogin.setVisible(true);
         dispose();
     }//GEN-LAST:event_cerrarSecionActionPerformed
+
+    private void filtrar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrar4ActionPerformed
+        String join=" ";
+        if(!(pedidosConSaldo.isSelected()&&pedidosCancelados.isSelected())){
+            if(pedidosConSaldo.isSelected())
+                join=join+" AND (pag.monto_total - pag.descuento - pag.a_cuenta) >0 ";
+            if(pedidosCancelados.isSelected())
+                join=join+" AND (pag.monto_total - pag.descuento - pag.a_cuenta) =0 ";
+        }
+        if(!(pedidosPendientes.isSelected()&&pedidosEntregados.isSelected())){    
+            if(pedidosPendientes.isSelected())
+                join=join+" AND ped.estado='pendiente' ";
+            if(pedidosEntregados.isSelected())
+                join=join+" AND ped.estado='entregado' ";
+        }
+        if(!comboUsuarios.getSelectedItem().equals("todos"))
+            join=join+" AND usu.login='"+comboUsuarios.getSelectedItem()+"'";
+        llenarTablaPedidos(join);
+}//GEN-LAST:event_filtrar4ActionPerformed
+
+    private void filtrarPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarPedidosActionPerformed
+        panelFiltrar4.setVisible(true);
+        filtrarPedidos.setEnabled(false);
+        llenarComboUsuarios();
+    }//GEN-LAST:event_filtrarPedidosActionPerformed
+
+    private void ocultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ocultarActionPerformed
+        panelFiltrar4.setVisible(false);
+        filtrarPedidos.setEnabled(true);
+    }//GEN-LAST:event_ocultarActionPerformed
+
+    private void saldarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saldarPedidoActionPerformed
+        saldarCuenta();
+    }//GEN-LAST:event_saldarPedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,13 +453,28 @@ public class Principal extends javax.swing.JFrame {
         });
     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton actualizar;
     private javax.swing.JLabel bienvenidaUsuario;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.JButton cerrarSecion;
-    private javax.swing.JButton editarPedido;
+    private javax.swing.JComboBox comboUsuarios;
+    private javax.swing.JButton filtrar4;
+    private javax.swing.JButton filtrarPedidos;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton nuevoPedido;
+    private javax.swing.JButton ocultar;
+    private javax.swing.JPanel panelFiltrar4;
     private javax.swing.JPanel panelPrincipal;
+    private javax.swing.JRadioButton pedidosCancelados;
+    private javax.swing.JRadioButton pedidosConSaldo;
+    private javax.swing.JRadioButton pedidosEntregados;
+    private javax.swing.JRadioButton pedidosPendientes;
+    private javax.swing.JButton saldarPedido;
     private javax.swing.JTable tablaPedidos;
+    private javax.swing.JButton verPedido;
     // End of variables declaration//GEN-END:variables
 }

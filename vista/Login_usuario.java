@@ -31,7 +31,22 @@ public class Login_usuario extends javax.swing.JPanel {
         initComponents();
         inicio =ventanaPrincipal;
     }
-
+    public void ingresar(){
+        if(validarDatosUsuario()){
+            int id=validarUsuario();
+            if(id!=0){
+                usuario=new Usuario(id);
+                inicio.dispose();
+                principal=new Principal(usuario);
+                principal.setVisible(true);    
+            }else
+                JOptionPane.showMessageDialog(null, "el login n es correcto");
+        }
+    }
+    public void keyEnter(java.awt.event.KeyEvent evt){
+        if (evt.getKeyCode() == evt.VK_ENTER) 
+              ingresar();               
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -58,11 +73,21 @@ public class Login_usuario extends javax.swing.JPanel {
                 ingresarActionPerformed(evt);
             }
         });
+        ingresar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ingresarKeyPressed(evt);
+            }
+        });
 
         nuevoUsuario.setText("Nuevo Usuario");
         nuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nuevoUsuarioActionPerformed(evt);
+            }
+        });
+        nuevoUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nuevoUsuarioKeyPressed(evt);
             }
         });
 
@@ -113,17 +138,16 @@ public class Login_usuario extends javax.swing.JPanel {
     }//GEN-LAST:event_nuevoUsuarioActionPerformed
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
-        if(validarDatosUsuario()){
-            int id=validarUsuario();
-            if(id!=0){
-                usuario=new Usuario(id);
-                inicio.dispose();
-                principal=new Principal(usuario);
-                principal.setVisible(true);    
-            }else
-                JOptionPane.showMessageDialog(null, "el login n es correcto");
-        }
+        ingresar();
     }//GEN-LAST:event_ingresarActionPerformed
+    
+    private void ingresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ingresarKeyPressed
+         keyEnter(evt);
+    }//GEN-LAST:event_ingresarKeyPressed
+
+    private void nuevoUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nuevoUsuarioKeyPressed
+        keyEnter(evt);
+    }//GEN-LAST:event_nuevoUsuarioKeyPressed
     private boolean validarDatosUsuario(){
         boolean validacion=false;
         if(!login.getText().equals(""))

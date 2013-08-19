@@ -9,6 +9,8 @@
  * Created on 11-jul-2013, 7:42:25
  */
 package vista;
+import conexion.Operaciones;
+import java.security.acl.Owner;
 import objetos.*;
 /**
  *
@@ -17,39 +19,95 @@ import objetos.*;
 public class Ventaja_pedido extends javax.swing.JDialog {
 
     /** Creates new form Ventaja_pedido */
-        private pedido pedid;
-        private detalle_cuenta det_cuenta;
-        private montura_armazon mon_arm;
-        private lente lent;
+        private pedido panelPedido;
+        private DetallePedido detallePedido;
+        private Operaciones operaciones;
         private Usuario usuario;
-    public Ventaja_pedido(java.awt.Frame parent, boolean modal,Usuario usuario) {
+        private boolean editar=false;
+        private Principal ventanaPrincipal;
+        
+        private Persona cliente;
+        private Pedido pedido;
+       
+   /* public Ventaja_pedido(java.awt.Frame parent, boolean modal,Usuario usuario,Operaciones operaciones) {
         super(parent, modal);
         this.usuario=usuario;
+        this.operaciones=operaciones;
         initComponents();
         iniciar_componentes();
         setLayout(null);
     }
+         * 
+         */
+    public Ventaja_pedido(java.awt.Frame parent, boolean modal,Usuario usuario,Operaciones operaciones,boolean editar,Principal ventanaPrincipal) {
+        super(parent, modal);
+        this.usuario=usuario;
+        this.operaciones=operaciones;
+        this.editar=editar;
+        this.ventanaPrincipal=ventanaPrincipal;
+        initComponents();
+        valoresPorDefecto();
+        
+        setLayout(null);
+    }
+    public void valoresPorDefecto(){
+        if(!editar)
+            iniciar_componentes();    
+    }
+   
+    public void iniciar_componentesEdicion(){
+       panelPedido=new pedido(usuario,operaciones,this,editar);
+       panelPedido.setCliente(cliente);
+       panelPedido.valoresEdicion();
+       panelPedido.setIdPedido(pedido.getId());
+       panelPedido.setBounds(0, 0,900,850);
+       detallePedido=new DetallePedido(usuario,panelPedido,editar);
+       detallePedido.setPedido(pedido);
+       detallePedido.valoresEdicion();
+       detallePedido.setBounds(0, 260, 900, 500);
+       panelPedido.setDetallePedido(detallePedido);
+       //panelPedido.setDetallePedido(detallePedido);
+       //detallePedido.setVisible(true);
+       add(panelPedido);
+    }
     public void iniciar_componentes(){
-        pedid=new pedido(usuario);
-        pedid.setBounds(0, 0,900,700);
-        add(pedid);
-     }
+        panelPedido=new pedido(usuario,operaciones,this,editar);
+        panelPedido.setBounds(0, 0,900,850);
+        add(panelPedido);
+        
+    }
+    public void setIdPedido(int idPedido){
+      pedido=new Pedido(idPedido);
+      cliente=new Persona(pedido.getIdCliente());
+       
+    }
+    public void actualizarTablaPrincipal(){
+        
+        ventanaPrincipal.llenarTablaPedidos("");
+    }
+    public void presionarBotonGuardarCliente(){
+        panelPedido.presionarBotonGuardarCliente();
+        //ventanaPrincipal.llenarTablaPedidos("");
+    }
     public void setPedido(Pedido pedido){
-        pedid.setPedido(pedido);
+        detallePedido.setPedido(pedido);
     }
     public void setCliente(Persona persona){
-        pedid.setCliente(persona);
-    }
+        panelPedido.setCliente(persona);
+    }/*
     public void setPago(Pago pago){
-        pedid.setPago(pago);
+        detallePedido.setPago(pago);
     }
     public void setLente(Lente lente){
-        pedid.setLente(lente);
+        detallePedido.setLente(lente);
     }
     public void setMontura(Montura montura){
-        pedid.setMontura(montura);
+        detallePedido.setMontura(montura);
+    }*/
+    public void valoresEdicion(){
+        detallePedido.valoresEdicion();
     }
-
+     
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -59,61 +117,26 @@ public class Ventaja_pedido extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        guardar = new javax.swing.JButton();
-        cancelar = new javax.swing.JButton();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        guardar.setText("Guardar");
-        guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarActionPerformed(evt);
-            }
-        });
-
-        cancelar.setText("Cancelar");
-        cancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(216, 216, 216)
-                .addComponent(guardar)
-                .addGap(46, 46, 46)
-                .addComponent(cancelar)
-                .addContainerGap(466, Short.MAX_VALUE))
+            .addGap(0, 874, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(707, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(guardar)
-                    .addComponent(cancelar))
-                .addGap(27, 27, 27))
+            .addGap(0, 757, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        boolean exito=pedid.validaPedidoYGuardar();
-        if(exito)
-          dispose();
-    }//GEN-LAST:event_guardarActionPerformed
-
-    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        dispose();
-    }//GEN-LAST:event_cancelarActionPerformed
-    public void setNuevoPedido(boolean nuevoPedido){
-        pedid.setNuevoPedido(nuevoPedido);
-    }
+       /* public void setNuevoPedido(boolean nuevoPedido){
+        
+        panelPedido.setNuevoPedido(nuevoPedido);
+        //detallePedido.setNuevoPedido(nuevoPedido);
+    }*/
     /**
      * @param args the command line arguments
      */
@@ -133,7 +156,5 @@ public class Ventaja_pedido extends javax.swing.JDialog {
         });
     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelar;
-    private javax.swing.JButton guardar;
     // End of variables declaration//GEN-END:variables
 }

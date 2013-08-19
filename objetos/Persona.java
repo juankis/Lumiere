@@ -44,13 +44,13 @@ public class Persona {
     }
     public DefaultComboBoxModel listaNombres(String cadenaEscrita){
         
-        String query = "SELECT DISTINCT p.nombre FROM persona p WHERE p.nombre LIKE '" + cadenaEscrita + "%';";
+        String query = "SELECT  p.nombre, p.apellidos,id FROM persona p WHERE p.nombre LIKE '" + cadenaEscrita + "%';";
         return operaciones.getModeloCombo(query);
         
      }
     public DefaultComboBoxModel listaApellidos(String cadenaEscrita){
                 
-        String query = "SELECT DISTINCT p.apellidos FROM persona p WHERE p.apellidos LIKE '" + cadenaEscrita + "%';";
+        String query = "SELECT  p.apellidos, p.nombre,p.id FROM persona p WHERE p.apellidos LIKE '" + cadenaEscrita + "%';";
         return operaciones.getModeloCombo(query);
      }
       public void guardar_en_BD()
@@ -88,7 +88,7 @@ public class Persona {
                 + "SET"
                 + " nombre ='"+nombre+"',"
                 + "apellidos ='"+apellido+"',"
-                + "telefono ="+telefono
+                + "telefono ='"+telefono+"'"
                 + " WHERE id ="+id;
       operaciones.insertar(sql);
     }

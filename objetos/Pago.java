@@ -77,6 +77,9 @@ public class Pago {
     public int getCostoConsulta(){
         return costoConsulta;
     }
+    public int getSaldo(){
+        return getMontoTotal()-getDescuento()-getACuenta();
+    }
     public void setIdPedido(int id){
        idPedido=id;
     }
@@ -97,6 +100,9 @@ public class Pago {
     }
     public void setCostoConsulta(int consulta){
         costoConsulta=consulta;
+    }
+    public void setSaldo(int nuevoSaldo){
+        a_cuenta+=nuevoSaldo;
     }
     public void guardar_en_BD()
     {

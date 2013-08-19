@@ -36,11 +36,11 @@ public class Conexion {
     {
         if (conexion != null)
             return;
-        String url = "Jdbc:mysql://localhost:3306/prueba4";
+        String url = "Jdbc:mysql://localhost:3306/lumiereV2";
         try
         {
            Class.forName("com.mysql.jdbc.Driver");
-           conexion = DriverManager.getConnection(url,"root","mysql");
+           conexion = DriverManager.getConnection(url,"lumiere","lumiere");
            consulta = conexion.createStatement();
            if (conexion !=null){
                System.out.println("Conexión a base de datos ... Ok");

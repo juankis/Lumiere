@@ -37,11 +37,15 @@ public class Pedido {
     private String observaciones;
     private String estado;
     private String doctor;
+    private int idMontura;
     private int idUsuario;
     private int idCliente;
     private Operaciones operaciones=new Operaciones();
     private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
     private java.text.SimpleDateFormat sdfHora = new java.text.SimpleDateFormat("hh:mm:ss");
+    
+    private String ingresoFecha;
+    private String entregaFecha;
     public Pedido(Date fecha_ingreso,
     Date fecha_entrega,
     Time hora_entrega,
@@ -99,6 +103,65 @@ public class Pedido {
         this.idUsuario=idUsuario;
         
     }
+    public Pedido(Date fecha_ingreso,
+    Date fecha_entrega,
+    Time hora_entrega,
+    String Der_lejos_esfer,
+    String Der_lejos_cilin,
+    String Der_lejos_eje,
+    String Izq_lejos_esfer,
+    String Izq_lejos_cilin,
+    String Izq_lejos_eje,
+    String Der_cerca_esfer,
+    String Der_cerca_cilin,
+    String Der_cerca_eje,
+    String Izq_cerca_esfer,
+    String Izq_cerca_cilin,
+    String Izq_cerca_eje,
+    String audicion,
+    String altura,
+    String d_p_lejos,
+    String d_p_cerca,
+    String observaciones,
+    String estado,
+    String doctor,
+    int idMontura,
+    int idCliente,
+    int idUsuario)
+    {
+        this.fecha_ingreso=fecha_ingreso;
+        this.fecha_entrega=fecha_entrega;
+        this.hora_entrega=hora_entrega;
+        
+        this.Der_lejos_esfer=Der_lejos_esfer;
+        this.Der_lejos_cilin=Der_lejos_cilin;
+        this.Der_lejos_eje=Der_lejos_eje;
+        
+        this.Izq_lejos_esfer=Izq_lejos_esfer;
+        this.Izq_lejos_cilin=Izq_lejos_cilin;
+        this.Izq_lejos_eje=Izq_lejos_eje;
+        
+        this.Der_cerca_esfer=Der_cerca_esfer;
+        this.Der_cerca_cilin=Der_cerca_cilin;
+        this.Der_cerca_eje=Der_cerca_eje;
+       
+        this.Izq_cerca_esfer=Izq_cerca_esfer; 
+        this.Izq_cerca_cilin=Izq_cerca_cilin;
+        this.Izq_cerca_eje=Izq_cerca_eje;
+       
+       
+        this.audicion=audicion;
+        this.altura=altura;
+        this.d_p_lejos=d_p_lejos;
+        this.d_p_cerca=d_p_cerca;
+        this.observaciones=observaciones;
+        this.estado=estado;
+        this.doctor=doctor;
+        this.idMontura=idMontura;
+        this.idCliente=idCliente;
+        this.idUsuario=idUsuario;
+        
+    }
     public Pedido(int idPedido){
         id=idPedido;
         String sql="select * from pedido where id="+idPedido;
@@ -109,10 +172,14 @@ public class Pedido {
         try{    
            this.fecha_ingreso=(sdf.parse(""+fila[1]));
            this.fecha_entrega=(sdf.parse(""+fila[2]));
-            this.hora_entrega=new Time((sdfHora.parse(""+fila[3])).getTime());
+           this.hora_entrega=new Time((sdfHora.parse(""+fila[3])).getTime());
+          
         }catch(ParseException ex){
             ex.printStackTrace();
         }
+        this.ingresoFecha=""+fila[1];
+        this.entregaFecha=""+fila[2];
+                
         this.Der_lejos_esfer=""+fila[4];
         this.Der_lejos_cilin=""+fila[5];
         this.Der_lejos_eje=""+fila[6];
@@ -148,11 +215,11 @@ public class Pedido {
         
         String sql="insert into pedido(fecha_ingreso,fecha_entrega,hora_entrega,der_cerca_cilin,der_cerca_eje,der_cerca_esfer,der_lejos_cilin,der_lejos_eje,der_lejos_esfer,"
                 + "izq_cerca_cilin,izq_cerca_eje,izq_cerca_esfer,izq_lejos_cilin,izq_lejos_eje,izq_lejos_esfer,"
-                + "adicion,altura, d_p_lejos, d_p_cerca,observaciones,estado,doctor, persona_id, usuario_id_usuario )"
+                + "adicion,altura, d_p_lejos, d_p_cerca,observaciones,estado,doctor, montura_id,persona_id, usuario_id_usuario )"
                 + "values('"+new java.sql.Date(fecha_ingreso.getTime())+"','"+new java.sql.Date(fecha_entrega.getTime())+"','"+new java.sql.Time(hora_entrega.getTime())+"'"
                 + ",'"+Der_cerca_cilin+"','"+Der_cerca_eje+"','"+Der_cerca_esfer+"','"+Der_lejos_cilin+"','"+Der_lejos_eje+"','"+Der_lejos_esfer+"'"
                 + ",'"+Izq_cerca_cilin+"','"+Izq_cerca_eje+"','"+Izq_cerca_esfer+"','"+Izq_lejos_cilin+"','"+Izq_lejos_eje+"','"+Izq_lejos_esfer+"'"
-                + ",'"+audicion+"','"+altura+"','"+d_p_lejos+"','"+d_p_cerca+"','"+observaciones+"','"+estado+"','"+doctor+"',"+idCliente+",1)";
+                + ",'"+audicion+"','"+altura+"','"+d_p_lejos+"','"+d_p_cerca+"','"+observaciones+"','"+estado+"','"+doctor+"',"+idMontura+","+idCliente+","+idUsuario+")";
         id=operaciones.guardarYRecuperarId(sql);
    }
     public int getId(){
@@ -163,6 +230,12 @@ public class Pedido {
     }
     public Date getFechaIngreso(){
         return fecha_ingreso;
+    }
+    public String getStringFechaEntrega(){
+        return entregaFecha;
+    }
+    public String getStringFechaIngreso(){
+        return ingresoFecha;
     }
     public Time getHoraEntrega(){
         return hora_entrega;

@@ -34,7 +34,22 @@ public class Operaciones extends Conexion {
   public Operaciones() {
     // initialise instance variables
   }
-
+  public void llenarCombo(JComboBox combo,String query){
+      try {
+        res=consultar(query);
+        if (res != null) {
+        while (res.next()) {
+                combo.addItem(res.getObject(1));
+            }
+        }
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "" + ex.getMessage());
+        }finally {
+           cerrarConexion();
+        }
+  }
+          
   public DefaultComboBoxModel getModeloCombo(String query){
       ResultSet res = null;
       DefaultComboBoxModel modelo = new DefaultComboBoxModel();
@@ -42,7 +57,11 @@ public class Operaciones extends Conexion {
         res=consultar(query);
         if (res != null) {
         while (res.next()) {
-                modelo.addElement(res.getString(1));
+                if(res.getMetaData().getColumnCount()>1)
+                    modelo.addElement(res.getString(1)+" "+res.getString(2)+" ID:"+res.getString(3));
+                       
+                else
+                    modelo.addElement(res.getString(1));
             }
         }
         } catch (SQLException ex) {
@@ -96,6 +115,26 @@ public class Operaciones extends Conexion {
     } 
     return resultado;
   }
+  public int consultarId(String sql){
+      int id=0;
+    System.out.println(sql);
+    conectar();
+    ResultSet resultado = null;
+    try {
+      resultado=consultar(sql);
+      if (resultado.next()){
+            id=resultado.getInt(1);
+        }
+    } catch (SQLException e) {
+      System.out.println("Mensaje:" + e.getMessage());
+      System.out.println("Estado:" + e.getSQLState());
+      System.out.println("Codigo del error:" + e.getErrorCode());
+      JOptionPane.showMessageDialog(null, "" + e.getMessage());
+    } finally {
+      cerrarConexion();
+    }
+      return id;
+  }
   public int guardarYRecuperarId(String sql){
     int id=0;
     System.out.println(sql);
@@ -117,14 +156,11 @@ public class Operaciones extends Conexion {
     }
       return id;
   }
-   public void getPedidos(DefaultTableModel tableModel) {
+   public void getPedidos(DefaultTableModel tableModel,String sql) {
         ResultSet resultado = null;
         tableModel.setRowCount(0);
         tableModel.setColumnCount(0);
-        String sql = "SELECT ped.id, per.nombre, per.apellidos, pag.monto_total, pag.descuento, pag.a_cuenta, ped.fecha_ingreso, ped.fecha_entrega"
-                   + " FROM pedido ped, persona per, pago pag"
-                   + " WHERE per.id = ped.persona_id"
-                   + " AND ped.id = pag.pedido_id";
+        
         try {
             resultado = consultar(sql);
             if (resultado != null) {
