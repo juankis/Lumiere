@@ -458,7 +458,7 @@ public class pedido extends javax.swing.JPanel {
         llenarTablaPedidos();
     }
     public void llenarTablaPedidos(){
-        String sql = "SELECT ped.id as 'ID Pedido', per.nombre, per.apellidos, (pag.monto_total - pag.descuento - pag.a_cuenta) as Saldo, ped.fecha_entrega"
+        String sql = "SELECT ped.id as 'ID Pedido', per.nombre, per.apellidos, (pag.monto_total - pag.descuento ) as Saldo, ped.fecha_entrega"
                    + " FROM pedido ped, persona per, pago pag"
                    + " WHERE per.id = ped.persona_id"
                    + " AND ped.id = pag.pedido_id"
@@ -589,6 +589,7 @@ public class pedido extends javax.swing.JPanel {
             if(detallePedido!=null)
                 this.remove(detallePedido);
             int id=(Integer)modelo.getValueAt(fila_select, 0);
+            System.out.println(id+"****************************************************");
             detallePedido=new DetallePedido(usuario, this, edicion);
             detallePedido.setCliente(persona);
             detallePedido.setIdPedido(id);

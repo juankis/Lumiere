@@ -68,6 +68,7 @@ public class Pedido {
     String observaciones,
     String estado,
     String doctor,
+    
     int idCliente,
     int idUsuario)
     {
@@ -99,6 +100,7 @@ public class Pedido {
         this.observaciones=observaciones;
         this.estado=estado;
         this.doctor=doctor;
+       
         this.idCliente=idCliente;
         this.idUsuario=idUsuario;
         
@@ -204,8 +206,10 @@ public class Pedido {
         this.observaciones=""+fila[20];
         this.estado=""+fila[21];
         this.doctor=""+fila[22];
+        
         this.idCliente=Integer.parseInt(""+fila[23]);
         this.idUsuario=Integer.parseInt(""+fila[24]);
+        this.idMontura=Integer.parseInt(""+fila[25]);
         }else{
             System.out.println("pedido es nulllll");
         }
@@ -224,6 +228,9 @@ public class Pedido {
    }
     public int getId(){
         return id;
+    }
+    public int getIdMontura(){
+        return idMontura;
     }
     public Date getFechaEntrega(){
         return fecha_entrega;

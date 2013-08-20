@@ -5,6 +5,7 @@
 package objetos;
 
 import conexion.Operaciones;
+import java.text.ParseException;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 
@@ -23,8 +24,10 @@ public class Montura {
     private double costoUnitario;
     private double precioDeVentaUnitario;
     private Date fechaIngreso;
+    private String ingresoFecha;
+    private String monturaGafa;
     private Operaciones operaciones=new Operaciones();
-    
+    private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
     
     public Montura(String marca,String modelo,String tamanio,String color)
     {
@@ -32,25 +35,40 @@ public class Montura {
         this.modelo=modelo;
         this.tamanio=tamanio;
         this.color=color;
+        cantidad=-1;
+        costoUnitario=-1;
+        precioDeVentaUnitario=-1;
         
     }
     public Montura(){
     
-    }/*
+    }
     public Montura(int idMontura){
-        this.idPedido=idPedido;
-        String sql="select * from montura where pedido_id="+idPedido;
+        this.id=idMontura;
+        String sql="select * from montura where id="+idMontura;
         Object[] fila=operaciones.getObject(sql);
         if(fila.length!=1){
-        id=(Integer)fila[0];
-        marca=""+fila[2];
-        codigo=""+fila[3];
+        
+        marca=""+fila[1];
+        modelo=""+fila[2];
+        tamanio=""+fila[3];
         color=""+fila[4];
-        tipo=""+fila[5];
-        tamanio=""+fila[6];
-        estado=""+fila[7];
+        cantidad=(Integer)fila[5];
+        proveedor=""+fila[6];
+        costoUnitario=(Double.valueOf(""+fila[7]));
+        precioDeVentaUnitario=(Double.valueOf(""+fila[8]));//fila[8];
+         try{    
+           if(!(fila[9]==null))  
+           this.fechaIngreso=(sdf.parse(""+fila[9]));
+           
+        }catch(ParseException ex){
+            ex.printStackTrace();
         }
-    }*/
+        this.ingresoFecha=""+fila[9];
+       
+        monturaGafa=""+fila[10];
+        }
+    }
     public int buscarId(){
         String query="Select id from montura where marca='"+marca+"' and modelo='"+modelo+"' and tamanio='"+tamanio+"' and color='"+color+"'";
         id=operaciones.consultarId(query);
@@ -61,19 +79,15 @@ public class Montura {
         String query = "SELECT DISTINCT m.marca FROM montura m WHERE m.marca LIKE '" + cadenaEscrita + "%';";
         return operaciones.getModeloCombo(query);
      }
-    public DefaultComboBoxModel listaCodigos(String cadenaEscrita){
-        
-        String query = "SELECT DISTINCT m.codigo FROM montura m WHERE m.codigo LIKE '" + cadenaEscrita + "%';";
-        return operaciones.getModeloCombo(query);
-     }
+   
     public DefaultComboBoxModel listaColores(String cadenaEscrita){
         
         String query = "SELECT DISTINCT m.color FROM montura m WHERE m.color LIKE '" + cadenaEscrita + "%';";
         return operaciones.getModeloCombo(query);
      }
-    public DefaultComboBoxModel listaTipos(String cadenaEscrita){
+    public DefaultComboBoxModel listaModelos(String cadenaEscrita){
         
-        String query = "SELECT DISTINCT m.tipo FROM montura m WHERE m.tipo LIKE '" + cadenaEscrita + "%';";
+        String query = "SELECT DISTINCT m.modelo FROM montura m WHERE m.modelo LIKE '" + cadenaEscrita + "%';";
         return operaciones.getModeloCombo(query);
      }
     public DefaultComboBoxModel listaTamanios(String cadenaEscrita){
@@ -98,7 +112,9 @@ public class Montura {
     public String getColor(){
         return color;
     }
-    
+    public String getModelo(){
+        return modelo;
+    }
     public String getTamanio(){
         return tamanio;
     }
@@ -122,10 +138,11 @@ public class Montura {
                 + " WHERE id ="+id;
         operaciones.insertar(sql);
     }
-    public void crearNegativo(){
-        String sql="insert into montura(marca,modelo,tamanio,color)"
-                + "values('"+marca+"','"+modelo+"','"+tamanio+"','"+color+"')";
+    public int crearNegativo(){
+        String sql="insert into montura(marca,modelo,tamanio,color,cantidad,proveedor,costoUnitario,precioDeVentaUnitario)"
+                + "values('"+marca+"','"+modelo+"','"+tamanio+"','"+color+"',"+cantidad+",'"+proveedor+"',"+costoUnitario+","+precioDeVentaUnitario+")";
         id=operaciones.guardarYRecuperarId(sql);
+        return id;
     }/*
     public void actualizar(){
         String sql="UPDATE montura "

@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import objetos.AcomodadorPedidosI;
+
 import objetos.Lente;
 import objetos.Montura;
 import objetos.Pago;
@@ -34,7 +34,7 @@ public class Principal extends javax.swing.JFrame {
 
     /** Creates new form Principal */
     private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondo.jpg"));
-    private AcomodadorPedidosI acomodador=new AcomodadorPedidosI();
+    
     private Operaciones operaciones=new Operaciones();
     private Usuario usuario;
     private SaldarCuenta saldarCuenta;
@@ -53,7 +53,7 @@ public class Principal extends javax.swing.JFrame {
     }
     public void llenarTablaPedidos(String join){
         
-    String sql = "SELECT ped.id as IdPedido, per.nombre, per.apellidos, (pag.monto_total - pag.descuento - pag.a_cuenta) as Saldo, ped.fecha_ingreso, ped.fecha_entrega,usu.login"
+    String sql = "SELECT ped.id as IdPedido, per.nombre, per.apellidos, (pag.monto_total - pag.descuento ) as Saldo, ped.fecha_ingreso, ped.fecha_entrega,usu.login"
                    + " FROM pedido ped, persona per, pago pag, usuario usu"
                    + " WHERE per.id = ped.persona_id"
                    + " AND ped.usuario_id_usuario = usu.id_usuario"
@@ -342,6 +342,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void verPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verPedidoActionPerformed
         int id=idSeleccionadoEnTabla();
+        
         if(id!=0){
             
             

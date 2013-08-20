@@ -16,7 +16,7 @@ public class Pago {
     private int monto_total;
     private Date fecha_pago= new Date();
     private String estado;
-    private int a_cuenta;
+    
     private int descuento;
     private int idPedido;
     private int costoLente;
@@ -24,12 +24,12 @@ public class Pago {
     private int costoConsulta;
     Operaciones operaciones=new Operaciones();
     
-    public Pago(int monto_total,String estado,int a_cuenta,int descuento,int idPedido,
+    public Pago(int monto_total,String estado,int descuento,int idPedido,
                 int costoLente,int costoArmazon,int costoConsulta)
     {
         this.monto_total=monto_total;
         this.estado=estado;
-        this.a_cuenta=a_cuenta;
+        
         this.descuento=descuento;
         this.idPedido=idPedido;
         this.costoLente=costoLente;
@@ -45,11 +45,11 @@ public class Pago {
         id=(Integer)fila[0];
         monto_total=Integer.parseInt(""+fila[2]);
         estado=""+fila[4];
-        a_cuenta=Integer.parseInt(""+fila[5]);
-        descuento=Integer.parseInt(""+fila[6]);
-        costoLente=Integer.parseInt(""+fila[7]);
-        costoArmazon=Integer.parseInt(""+fila[8]);
-        costoConsulta=Integer.parseInt(""+fila[9]);
+        
+        descuento=Integer.parseInt(""+fila[5]);
+        costoLente=Integer.parseInt(""+fila[6]);
+        costoArmazon=Integer.parseInt(""+fila[7]);
+        costoConsulta=Integer.parseInt(""+fila[8]);
         }
     }
     public Pago(){}
@@ -63,7 +63,7 @@ public class Pago {
         return monto_total;
     }
     public int getACuenta(){
-        return a_cuenta;
+        return 0;//a_cuenta;
     }
     public int getDescuento(){
         return descuento;
@@ -87,7 +87,7 @@ public class Pago {
         monto_total=monto;
     }
     public void setACuenta(int aCuenta){
-        a_cuenta=aCuenta;
+        //a_cuenta=aCuenta;
     }
     public void setDescuento(int descuento){
         this.descuento=descuento;
@@ -102,13 +102,13 @@ public class Pago {
         costoConsulta=consulta;
     }
     public void setSaldo(int nuevoSaldo){
-        a_cuenta+=nuevoSaldo;
+        //a_cuenta+=nuevoSaldo;
     }
     public void guardar_en_BD()
     {
-        String sql="insert into pago(monto_total,estado,a_cuenta,descuento,pedido_id,costo_lente,"
+        String sql="insert into pago(monto_total,estado,descuento,pedido_id,costo_lente,"
                 + "costo_armazon,costo_consulta)"
-                + "values("+monto_total+",'"+estado+"',"+a_cuenta+","+descuento+","+idPedido+""
+                + "values("+monto_total+",'"+estado+"',"+descuento+","+idPedido+""
                 + ","+costoLente+","+costoArmazon+","+costoConsulta+")";
         
         id=operaciones.guardarYRecuperarId(sql);
@@ -117,7 +117,7 @@ public class Pago {
         String sql="UPDATE pago "
                 + "SET monto_total ="+monto_total+","
                 + "estado = '"+estado+"',"
-                + "a_cuenta ="+a_cuenta+","
+                
                 + "descuento ="+descuento+","
                 + "pedido_id ="+idPedido+","
                 + "costo_lente ="+costoLente+","

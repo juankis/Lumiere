@@ -175,6 +175,7 @@ public class DetallePedido extends javax.swing.JPanel {
         labelTamanioMontura.setText("Tamaño");
         jPanel1.add(labelTamanioMontura, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
+        marca_montura.setEditable(true);
         jPanel1.add(marca_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 80, -1));
 
         tamanio_montura.setEditable(true);
@@ -183,6 +184,7 @@ public class DetallePedido extends javax.swing.JPanel {
         color_montura.setEditable(true);
         jPanel1.add(color_montura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 80, -1));
 
+        modeloMontura.setEditable(true);
         jPanel1.add(modeloMontura, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 80, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -809,6 +811,10 @@ public class DetallePedido extends javax.swing.JPanel {
        Montura montura_a=new Montura(""+marca_montura.getSelectedItem(),""+modeloMontura.getSelectedItem(),
                                      getString(tamanio_montura),getString(color_montura));
        int idmontura=montura_a.buscarId();
+       if(idmontura!=0)
+           montura_a.descontarUno();
+       else
+          idmontura= montura_a.crearNegativo();
        pedido= new Pedido(fecha_ingreso.getDate(), fecha_entrega.getDate(),hora, lDEsferico.getText()
                                 , lDCilindrico.getText(),lDEje.getText(), lIEsferico.getText(),lICilindrico.getText()
                                 , lIEje.getText(),cDEsferico.getText(), cDCilindrico.getText(),cDEje.getText()
@@ -816,12 +822,12 @@ public class DetallePedido extends javax.swing.JPanel {
                                 , altura.getText(), d_p_lejos.getText(),d_p_cerca.getText(), observaciones.getText()
                                 , getEstadoPedido(),getString(doctor),idmontura,persona.getId(),usuario.get_id());
        pedido.guardarEnBD();
-       if(idmontura!=0)
-           montura_a.descontarUno();
-       else
-           montura_a.crearNegativo();
-       Pago pago= new Pago(total,"01",acu ,desc,pedido.getId(),costoLente,costoArmazon,costoConsulta); 
+       
+       Pago pago= new Pago(total,"01",desc,pedido.getId(),costoLente,costoArmazon,costoConsulta);
        pago.guardar_en_BD();
+       ACuenta aCuenta= new ACuenta(acu,new Date(),pago.getId(),usuario.get_id());
+       aCuenta.guardarEnBD();
+       
        
        Lente lente=new Lente(getString(material_lente),getString(tipo_lente),
                              getString(color_lente), getString(vision_lente),"01",pedido.getId());
@@ -976,7 +982,7 @@ public class DetallePedido extends javax.swing.JPanel {
     public void llenarDatosMontura(){
         
         marca_montura.getEditor().setItem(montura.getMarca());
-        //modeloMontura.getEditor().setItem(montura.getCodigo());
+        modeloMontura.getEditor().setItem(montura.getModelo());
         color_montura.getEditor().setItem(montura.getColor());
         
         tamanio_montura.getEditor().setItem(montura.getTamanio());
@@ -989,12 +995,10 @@ public class DetallePedido extends javax.swing.JPanel {
              combo.setModel(persona.listaNombres(cadenaEscrita));
         if(combo.getName().equals("marca_montura"))
              combo.setModel(montura.listaMarcas(cadenaEscrita));
-        if(combo.getName().equals("codigo_montura"))
-             combo.setModel(montura.listaCodigos(cadenaEscrita));
         if(combo.getName().equals("color_montura"))
              combo.setModel(montura.listaColores(cadenaEscrita));
-        if(combo.getName().equals("tipo_montura"))
-             combo.setModel(montura.listaTipos(cadenaEscrita));
+        if(combo.getName().equals("modelo_montura"))
+             combo.setModel(montura.listaModelos(cadenaEscrita));
         if(combo.getName().equals("tamanio_montura"))
              combo.setModel(montura.listaTamanios(cadenaEscrita));
         if(combo.getName().equals("material_lente"))
@@ -1011,7 +1015,7 @@ public class DetallePedido extends javax.swing.JPanel {
         
         //montura
         marca_montura.setName("marca_montura");
-        modeloMontura.setName("codigo_montura");
+        modeloMontura.setName("modelo_montura");
         color_montura.setName("color_montura");
         
         tamanio_montura.setName("tamanio_montura");
@@ -1064,7 +1068,7 @@ public class DetallePedido extends javax.swing.JPanel {
         
         lente=new Lente(pedido.getId());
         pago=new Pago(pedido.getId());
-       // montura=new Montura(pedido.getId());
+        montura=new Montura(pedido.getIdMontura());
     }
     public void setCliente(Persona persona)
     {
