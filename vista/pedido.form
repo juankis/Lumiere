@@ -147,7 +147,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="nombreLabel">
+    <Component class="javax.swing.JLabel" name="apellidoLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Narrow" size="18" style="1"/>
@@ -159,7 +159,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="apellidoLabel">
+    <Component class="javax.swing.JLabel" name="nombreLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Narrow" size="18" style="1"/>

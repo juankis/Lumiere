@@ -9,6 +9,8 @@
  * Created on 14-ago-2013, 13:11:10
  */
 package vista;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import objetos.*;
 /**
  *
@@ -17,13 +19,22 @@ import objetos.*;
 public class SaldarCuenta extends javax.swing.JDialog {
 
     /** Creates new form SaldarCuenta */
+    private JLabel fondo=new JLabel(new ImageIcon("imagenes/fondo.jpg"));
     private Pedido pedido;
     private Persona cliente;
     private Pago pago;
     int nuevoSaldoCuenta=0;
-    public SaldarCuenta(java.awt.Frame parent, boolean modal) {
+    private Usuario usuario;
+    public SaldarCuenta(java.awt.Frame parent, boolean modal,Usuario usuario) {
         super(parent, modal);
+        this.setLocationRelativeTo(null);
+        this.usuario=usuario;
         initComponents();
+        addFondo();
+    }
+    public void addFondo(){
+        fondo.setBounds(0,0, 500, 500);
+        add(fondo);
     }
     public void setPedido(Pedido pedido){
         this.pedido=pedido;
@@ -47,6 +58,10 @@ public class SaldarCuenta extends javax.swing.JDialog {
             nuevoSaldoCuenta=pago.getSaldo()-Integer.parseInt(saldarCuenta.getText());
             nuevoSaldo.setText("Nuevo Saldo : "+nuevoSaldoCuenta);
         }
+    }
+    public void guardarCambios(){
+        pago.setACuenta(Integer.parseInt(saldarCuenta.getText()),usuario.get_id());
+       dispose();
     }
      /** This method is called from within the constructor to
      * initialize the form.
@@ -94,6 +109,11 @@ public class SaldarCuenta extends javax.swing.JDialog {
                 guardarCambiosActionPerformed(evt);
             }
         });
+        guardarCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                guardarCambiosKeyPressed(evt);
+            }
+        });
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -101,8 +121,13 @@ public class SaldarCuenta extends javax.swing.JDialog {
                 cancelarActionPerformed(evt);
             }
         });
+        cancelar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cancelarKeyPressed(evt);
+            }
+        });
 
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 24));
         jLabel6.setText("Cuenta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,33 +189,27 @@ public class SaldarCuenta extends javax.swing.JDialog {
     }//GEN-LAST:event_saldarCuentaKeyReleased
 
     private void guardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCambiosActionPerformed
-        pago.setSaldo(Integer.parseInt(saldarCuenta.getText()));
-        pago.actualizar();
-        dispose();
+       guardarCambios();
     }//GEN-LAST:event_guardarCambiosActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
+    private void guardarCambiosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_guardarCambiosKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER)
+            guardarCambios();
+    }//GEN-LAST:event_guardarCambiosKeyPressed
+
+    private void cancelarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cancelarKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER)
+            dispose();
+    }//GEN-LAST:event_cancelarKeyPressed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                SaldarCuenta dialog = new SaldarCuenta(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
     private javax.swing.JButton guardarCambios;

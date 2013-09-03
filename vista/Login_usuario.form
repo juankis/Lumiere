@@ -30,11 +30,11 @@
                           <Component id="password" alignment="0" pref="109" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="ingresar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="nuevoUsuario" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="salir" min="-2" pref="75" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
@@ -56,8 +56,8 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="salir" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="ingresar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="nuevoUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="128" max="32767" attributes="0"/>
           </Group>
@@ -80,22 +80,25 @@
     <Component class="javax.swing.JButton" name="ingresar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ingresar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor Por defecto"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ingresarActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ingresarKeyPressed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="nuevoUsuario">
+    <Component class="javax.swing.JPasswordField" name="password">
+    </Component>
+    <Component class="javax.swing.JButton" name="salir">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nuevo Usuario"/>
+        <Property name="text" type="java.lang.String" value="Salir"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevoUsuarioActionPerformed"/>
-        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nuevoUsuarioKeyPressed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="salirActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="salirKeyPressed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JPasswordField" name="password">
     </Component>
   </SubComponents>
 </Form>

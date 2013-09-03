@@ -6,7 +6,7 @@
 /*
  * nuevoUsuario.java
  *
- * Created on 01-ago-2013, 15:44:26
+ * Created on 03-sep-2013, 0:02:03
  */
 package vista;
 
@@ -18,15 +18,57 @@ import objetos.Usuario;
  *
  * @author juanki
  */
-public class nuevoUsuario extends javax.swing.JPanel {
+public class nuevoUsuario extends javax.swing.JDialog {
 
-    /** Creates new form nuevoUsuario */
     Persona persona;
-    Usuario usuar;
+    Usuario usuario;
     menuPrincipal ventana;
-    public nuevoUsuario(menuPrincipal ventanaPrincipal) {
+    String roll;
+    int id;
+    public nuevoUsuario(java.awt.Frame parent, boolean modal,   boolean edicion, String roll, int id) {
+        super(parent, modal);
+        this.roll=roll;
         initComponents();
-        ventana=ventanaPrincipal;
+        this.setLocationRelativeTo(null);
+        if(edicion){
+            
+            this.id=id;
+            crear.setVisible(false);
+            if(roll.equals("Clientes del sistema")){
+                formularioClientes();
+            }
+            if(roll.equals("Usuarios del sistema")){
+                formularioUsuarios();
+            }
+        }else{
+            guardarCambios.setVisible(false);
+            if(roll.equals("Clientes del sistema")){
+                mostraCamposUsuario(false);
+            }
+        }
+    }
+    public void formularioClientes(){
+        mostraCamposUsuario(false);
+        persona=new Persona(id);
+        nombre.setText(persona.getName());
+        apellidos.setText(persona.getApellido());
+        telefono.setText(persona.getTelf());
+    }
+    public void mostraCamposUsuario(boolean mostrar){
+        nombreUsuario.setVisible(mostrar);
+        contrasenia.setVisible(mostrar);
+        contraseniaRepetida.setVisible(mostrar);
+        labelContrasenia.setVisible(mostrar);
+        labelNombreDeUsuario.setVisible(mostrar);
+        labelRepitaContrasenia.setVisible(mostrar);
+    }
+    public void formularioUsuarios(){
+        usuario=new Usuario(id);  
+        persona =new Persona(usuario.getIdPersona());
+        nombre.setText(persona.getName());
+        apellidos.setText(persona.getApellido());
+        telefono.setText(persona.getTelf());
+        nombreUsuario.setText(usuario.getLogin());
     }
 
     /** This method is called from within the constructor to
@@ -46,18 +88,24 @@ public class nuevoUsuario extends javax.swing.JPanel {
         telefono = new javax.swing.JTextField();
         crear = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        usuario = new javax.swing.JTextField();
+        labelNombreDeUsuario = new javax.swing.JLabel();
+        labelContrasenia = new javax.swing.JLabel();
+        labelRepitaContrasenia = new javax.swing.JLabel();
+        nombreUsuario = new javax.swing.JTextField();
         contraseniaRepetida = new javax.swing.JPasswordField();
         contrasenia = new javax.swing.JPasswordField();
+        guardarCambios = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nombre");
 
         jLabel2.setText("Apellidos");
 
         jLabel3.setText("telefono");
+
+        nombre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        nombre.setName(""); // NOI18N
 
         telefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -71,6 +119,11 @@ public class nuevoUsuario extends javax.swing.JPanel {
                 crearActionPerformed(evt);
             }
         });
+        crear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                crearKeyPressed(evt);
+            }
+        });
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,103 +131,218 @@ public class nuevoUsuario extends javax.swing.JPanel {
                 cancelarActionPerformed(evt);
             }
         });
+        cancelar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cancelarKeyPressed(evt);
+            }
+        });
 
-        jLabel4.setText("Nombre de usuario");
+        labelNombreDeUsuario.setText("Nombre de usuario");
 
-        jLabel5.setText("Contraseña");
+        labelContrasenia.setText("Contraseña");
 
-        jLabel6.setText("repita Contraseña");
+        labelRepitaContrasenia.setText("repita Contraseña");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        guardarCambios.setText("Guardar Cambios");
+        guardarCambios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarCambiosActionPerformed(evt);
+            }
+        });
+        guardarCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                guardarCambiosKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(56, Short.MAX_VALUE)
+                .addComponent(guardarCambios)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(crear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelar)
+                .addGap(83, 83, 83))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 100, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel1)
+                            .addGap(48, 48, 48)
+                            .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(43, 43, 43)
+                            .addComponent(apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(crear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(cancelar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(contraseniaRepetida)
-                            .addComponent(contrasenia, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(usuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(108, 108, 108))
+                            .addGap(45, 45, 45)
+                            .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(labelNombreDeUsuario)
+                            .addGap(25, 25, 25)
+                            .addComponent(nombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(labelContrasenia)
+                            .addGap(59, 59, 59)
+                            .addComponent(contrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(labelRepitaContrasenia)
+                            .addGap(28, 28, 28)
+                            .addComponent(contraseniaRepetida, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 100, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(contrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(contraseniaRepetida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(232, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(crear)
+                    .addComponent(guardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelar))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 47, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(jLabel1))
+                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(11, 11, 11)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(jLabel2))
+                        .addComponent(apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(11, 11, 11)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(jLabel3))
+                        .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(11, 11, 11)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(labelNombreDeUsuario))
+                        .addComponent(nombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(6, 6, 6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(labelContrasenia))
+                        .addComponent(contrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(6, 6, 6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(labelRepitaContrasenia))
+                        .addComponent(contraseniaRepetida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(88, 88, 88)))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        ventana.setVisibleFalsoTodos();
-        ventana.loguearUsuario();
-    }//GEN-LAST:event_cancelarActionPerformed
-
-    private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
-        if(validarDatos()){
-            guardarDatos();
-            ventana.setVisibleFalsoTodos();
-            ventana.loguearUsuario();
-        }
-    }//GEN-LAST:event_crearActionPerformed
 
     private void telefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyTyped
         char car = evt.getKeyChar();
         if((car<'0' || car>'9')) evt.consume();
-    }//GEN-LAST:event_telefonoKeyTyped
+}//GEN-LAST:event_telefonoKeyTyped
+
+    private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
+        crearCuenta();
+}//GEN-LAST:event_crearActionPerformed
+
+    private void crearKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_crearKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER)
+            crearCuenta();
+}//GEN-LAST:event_crearKeyPressed
+
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
+        dispose();
+}//GEN-LAST:event_cancelarActionPerformed
+
+    private void cancelarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cancelarKeyPressed
+        if (evt.getKeyCode() == evt.VK_ENTER)
+            dispose();
+}//GEN-LAST:event_cancelarKeyPressed
+
+    private void guardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCambiosActionPerformed
+           guardarCambios();
+    }//GEN-LAST:event_guardarCambiosActionPerformed
+
+    private void guardarCambiosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_guardarCambiosKeyPressed
+         if (evt.getKeyCode() == evt.VK_ENTER)
+             guardarCambios();
+    }//GEN-LAST:event_guardarCambiosKeyPressed
+   public void crearCuenta(){
+       if(roll.equals("Clientes del sistema"))
+            if(validarDatosCliente()){
+                guardarDatosCliente();
+                //JOptionPane.showMessageDialog(null, "la cuenta se ha creado exitosamente ");
+                dispose();
+            }
+        if(roll.equals("Usuarios del sistema"))
+            if(validarDatos()){
+                guardarDatos();
+                //JOptionPane.showMessageDialog(null, "la cuenta se ha creado exitosamente ");    
+                dispose();
+            }
+   }
+    public void guardarCambios(){
+       boolean exito=false;     
+       if(roll.equals("Clientes del sistema")){
+           
+           exito=guardarCambiosCliente();
+       }else
+           if(roll.equals("Usuarios del sistema")){
+             usuario=new Usuario(id);  
+             persona =new Persona(usuario.getIdPersona());
+             exito=guardarCambiosUsuario();
+           }
+       if(exito){
+            JOptionPane.showMessageDialog(null, "los cambios sehan guardado correctamente ");
+            dispose();
+       }else
+           JOptionPane.showMessageDialog(null, "a ocurrido un error ");
+       
+   }     
+    public boolean guardarCambiosCliente(){
+        boolean res=false;
+        if(validarDatosCliente()){
+            persona.setName(nombre.getText());
+            persona.setApellido(apellidos.getText());
+            persona.setTelf(telefono.getText());
+            persona.actualizar();
+            res=true;
+        }
+        return res;
+    }
+    public boolean guardarCambiosUsuario(){
+        boolean res=false;
+        if(validarDatos()){
+            persona.setName(nombre.getText());
+            persona.setApellido(apellidos.getText());
+            persona.setTelf(telefono.getText());
+            persona.actualizar();
+            usuario.setLogin(nombreUsuario.getText());
+            usuario.setContrasenia(contrasenia.getText());
+            usuario.actualizar();
+            res=true;
+        }
+        return res;
+    }
     public boolean validarDatos(){
         boolean validacion=false;
         if(!nombre.getText().equals(""))
             if(!apellidos.getText().equals(""))
-                if(!usuario.getText().equals(""))
+                if(!nombreUsuario.getText().equals(""))
                     if(!contrasenia.getText().equals(""))
                         if(!contraseniaRepetida.getText().equals(""))
                             if(contrasenia.getText().equals(contraseniaRepetida.getText()))
@@ -193,26 +361,64 @@ public class nuevoUsuario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "el nombre no es valida");
         return validacion;
     }
+    public boolean validarDatosCliente(){
+        boolean validacion=false;
+        if(!nombre.getText().equals(""))
+            if(!apellidos.getText().equals(""))
+                validacion=true;
+            else
+                JOptionPane.showMessageDialog(null, "el apellido no es valido");
+        else
+            JOptionPane.showMessageDialog(null, "el nombre no es valida");
+        return validacion;
+    }
+    public boolean validarDatosUsuario(){
+        boolean validacion=false;
+        if(!nombreUsuario.getText().equals(""))
+                    if(!contrasenia.getText().equals(""))
+                        if(!contraseniaRepetida.getText().equals(""))
+                            if(contrasenia.getText().equals(contraseniaRepetida.getText()))
+                                   validacion=true;
+                            else
+                                JOptionPane.showMessageDialog(null, "las contrasenias no coninciden"); 
+                        else
+                             JOptionPane.showMessageDialog(null, "la contraseña repetida no es valida");
+                    else          
+                        JOptionPane.showMessageDialog(null, "la contraseña no es valida");
+                else 
+                    JOptionPane.showMessageDialog(null, "el nombre de usuario no es valido");
+        return validacion;
+    }
     public void guardarDatos(){
         persona=new Persona(nombre.getText(), apellidos.getText(), telefono.getText());
         persona.guardar_en_BD();
-        usuar=new Usuario(usuario.getText(), contrasenia.getText(),":D",persona.getId());
-        usuar.guardar_en_BD();
+        usuario=new Usuario(nombreUsuario.getText(), contrasenia.getText(),":D",persona.getId());
+        usuario.guardar_en_BD();
     }
+    public void guardarDatosCliente(){
+        persona=new Persona(nombre.getText(), apellidos.getText(), telefono.getText());
+        persona.guardar_en_BD();
+        
+    }
+    /**
+     * @param args the command line arguments
+     */
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField apellidos;
     private javax.swing.JButton cancelar;
     private javax.swing.JPasswordField contrasenia;
     private javax.swing.JPasswordField contraseniaRepetida;
     private javax.swing.JButton crear;
+    private javax.swing.JButton guardarCambios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel labelContrasenia;
+    private javax.swing.JLabel labelNombreDeUsuario;
+    private javax.swing.JLabel labelRepitaContrasenia;
     private javax.swing.JTextField nombre;
+    private javax.swing.JTextField nombreUsuario;
     private javax.swing.JTextField telefono;
-    private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }

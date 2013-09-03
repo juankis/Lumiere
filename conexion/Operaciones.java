@@ -30,7 +30,8 @@ public class Operaciones extends Conexion {
   /**
    * Constructor for objects of class Operaciones
    */
-  ResultSet res;  
+  ResultSet res;
+  
   public Operaciones() {
     // initialise instance variables
   }
@@ -53,6 +54,7 @@ public class Operaciones extends Conexion {
   public DefaultComboBoxModel getModeloCombo(String query){
       ResultSet res = null;
       DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        modelo.addElement("");
         try {
         res=consultar(query);
         if (res != null) {
@@ -117,7 +119,27 @@ public class Operaciones extends Conexion {
   }
   public int consultarId(String sql){
       int id=0;
-    System.out.println(sql);
+    //System.out.println(sql);
+    conectar();
+    ResultSet resultado = null;
+    try {
+      resultado=consultar(sql);
+      if (resultado.next()){
+            id=resultado.getInt(1);
+        }
+    } catch (SQLException e) {
+      System.out.println("Mensaje:" + e.getMessage());
+      System.out.println("Estado:" + e.getSQLState());
+      System.out.println("Codigo del error:" + e.getErrorCode());
+      JOptionPane.showMessageDialog(null, "" + e.getMessage());
+    } finally {
+      cerrarConexion();
+    }
+      return id;
+  }
+  public int consultarGetInt(String sql){
+    int id=0;
+    
     conectar();
     ResultSet resultado = null;
     try {
@@ -143,6 +165,26 @@ public class Operaciones extends Conexion {
     try {
       consulta.executeUpdate(sql,consulta.RETURN_GENERATED_KEYS);
       resultado=consulta.getGeneratedKeys();
+      if (resultado.next()){
+            id=resultado.getInt(1);
+        }
+    } catch (SQLException e) {
+      System.out.println("Mensaje:" + e.getMessage());
+      System.out.println("Estado:" + e.getSQLState());
+      System.out.println("Codigo del error:" + e.getErrorCode());
+      JOptionPane.showMessageDialog(null, "" + e.getMessage());
+    } finally {
+      cerrarConexion();
+    }
+      return id;
+  }
+  public double recuperarDouble(String sql){
+      double id=0;
+   // System.out.println(sql);
+    conectar();
+    ResultSet resultado = null;
+    try {
+      resultado=consultar(sql);
       if (resultado.next()){
             id=resultado.getInt(1);
         }
@@ -184,6 +226,32 @@ public class Operaciones extends Conexion {
             cerrarConexion();
         }
     }
+   public ArrayList<ArrayList<String>> getClientes(String sql){
+       //String sql="";
+   ArrayList<ArrayList<String>> clientes=new ArrayList<ArrayList<String>>();
+   ResultSet resultado = null;
+        
+        try {
+            resultado = consultar(sql);
+            if (resultado != null) {
+                int numeroColumna = resultado.getMetaData().getColumnCount();
+                
+                while (resultado.next()) {
+                    ArrayList<String> objetos = new ArrayList<String>();
+                    for (int i = 1; i <= numeroColumna; i++) {
+                        objetos.add(""+resultado.getObject(i));
+                    }
+                    clientes.add(objetos);
+                }
+                
+            }
+        } catch (SQLException e) {
+        } finally {
+            cerrarConexion();
+            
+        }
+        return clientes;
+   }
    public Object[] getObject(String sql) 
    {
        Object[] objetos=new Object[1];

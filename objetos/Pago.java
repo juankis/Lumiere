@@ -13,23 +13,25 @@ import java.util.Date;
  */
 public class Pago {
     private int id;
-    private int monto_total;
+    private double monto_total;
     private Date fecha_pago= new Date();
     private String estado;
     
-    private int descuento;
+    private double descuento;
     private int idPedido;
-    private int costoLente;
-    private int costoArmazon;
-    private int costoConsulta;
+    private double costoLente;
+    private double costoArmazon;
+    private double costoConsulta;
+    private double costoGafa;
+    
+    private double saldo;
     Operaciones operaciones=new Operaciones();
     
-    public Pago(int monto_total,String estado,int descuento,int idPedido,
-                int costoLente,int costoArmazon,int costoConsulta)
+    public Pago(double saldo,double descuento,int idPedido,
+                double costoLente,double costoArmazon,double costoGafa,double costoConsulta)
     {
-        this.monto_total=monto_total;
-        this.estado=estado;
-        
+        this.saldo=saldo;
+        this.costoGafa=costoGafa;
         this.descuento=descuento;
         this.idPedido=idPedido;
         this.costoLente=costoLente;
@@ -43,13 +45,12 @@ public class Pago {
         Object[] fila=operaciones.getObject(sql);
         if(fila.length!=1){
         id=(Integer)fila[0];
-        monto_total=Integer.parseInt(""+fila[2]);
-        estado=""+fila[4];
-        
-        descuento=Integer.parseInt(""+fila[5]);
-        costoLente=Integer.parseInt(""+fila[6]);
-        costoArmazon=Integer.parseInt(""+fila[7]);
-        costoConsulta=Integer.parseInt(""+fila[8]);
+        saldo=Double.parseDouble(""+fila[2]);
+        descuento=Double.parseDouble(""+fila[3]);
+        costoArmazon=Double.parseDouble(""+fila[4]);
+        costoConsulta=Double.parseDouble(""+fila[5]);
+        costoLente=Double.parseDouble(""+fila[6]);
+        costoGafa=Double.parseDouble(""+fila[7]);
         }
     }
     public Pago(){}
@@ -59,69 +60,92 @@ public class Pago {
     public int getIdPedido(){
         return idPedido;
     }
-    public int getMontoTotal(){
-        return monto_total;
+    public double getMontoTotal(){
+        return costoArmazon+costoConsulta+costoLente;
     }
     public int getACuenta(){
-        return 0;//a_cuenta;
+        String sql="SELECT SUM(a_cuenta) "
+                + "FROM a_cuenta "
+                + "WHERE pago_id = "+id;
+
+        return operaciones.consultarGetInt(sql);
     }
-    public int getDescuento(){
+    public double getDescuento(){
         return descuento;
     }
-    public int getCostoLente(){
+    public double getCostoLente(){
         return costoLente;
     }
-    public int getCostoArmazon(){
+    public double getCostoArmazon(){
         return costoArmazon;
     }
-    public int getCostoConsulta(){
+    public double getCostoConsulta(){
+        return costoConsulta;
+    }
+    public double getCostogafa(){
         return costoConsulta;
     }
     public int getSaldo(){
-        return getMontoTotal()-getDescuento()-getACuenta();
+        String sql="SELECT pag.saldo "
+                + "FROM pago pag "
+                + "WHERE pag.id = "+id;
+
+        return operaciones.consultarGetInt(sql);
     }
     public void setIdPedido(int id){
        idPedido=id;
     }
-    public void setMontoTotal(int monto){
+    public void setMontoTotal(double monto){
         monto_total=monto;
     }
-    public void setACuenta(int aCuenta){
-        //a_cuenta=aCuenta;
+    public void setACuenta(double aCuenta,double idUsuario){
+        
+        String sql="insert into a_cuenta(a_cuenta,fecha_deposito,pago_id,usuario_id_usuario)"           
+                + "values("+aCuenta+",CURDATE(),"+id+","+idUsuario+")";
+              
+        operaciones.guardarYRecuperarId(sql);
+               sql="UPDATE pago "
+                + "SET saldo =saldo - "+aCuenta
+                + " WHERE id ="+id;
+         operaciones.insertar(sql);      
     }
-    public void setDescuento(int descuento){
+    public void setDescuento(double descuento){
         this.descuento=descuento;
     }
-    public void setCostoLente(int lente){
+    public void setCostoLente(double lente){
         costoLente=lente;
     }
-    public void setCostoArmazon(int armazon){
+    public void setCostoArmazon(double armazon){
         costoArmazon=armazon;
     }
-    public void setCostoConsulta(int consulta){
+    public void setCostoConsulta(double consulta){
         costoConsulta=consulta;
     }
-    public void setSaldo(int nuevoSaldo){
+    public void setCostoGafa(double costoGafa){
+        this.costoGafa=costoGafa;
+    }
+    public void setSaldo(double nuevoSaldo){
         //a_cuenta+=nuevoSaldo;
     }
     public void guardar_en_BD()
     {
-        String sql="insert into pago(monto_total,estado,descuento,pedido_id,costo_lente,"
-                + "costo_armazon,costo_consulta)"
-                + "values("+monto_total+",'"+estado+"',"+descuento+","+idPedido+""
-                + ","+costoLente+","+costoArmazon+","+costoConsulta+")";
+        String sql="insert into pago(saldo,descuento,pedido_id,costo_lente,"
+                + "costo_armazon,costo_consulta,costo_gafa)"
+                + "values("+saldo+","+descuento+","+idPedido+""
+                + ","+costoLente+","+costoArmazon+","+costoConsulta+","+costoGafa+")";
         
         id=operaciones.guardarYRecuperarId(sql);
     }
     public void actualizar(){
         String sql="UPDATE pago "
-                + "SET monto_total ="+monto_total+","
-                + "estado = '"+estado+"',"
+                + " SET "
+                + "saldo = "+saldo+","
                 
                 + "descuento ="+descuento+","
                 + "pedido_id ="+idPedido+","
                 + "costo_lente ="+costoLente+","
                 + "costo_armazon ="+costoArmazon+","
+                + "costo_gafa ="+costoGafa+","
                 + "costo_consulta ="+costoConsulta
                 + " WHERE id ="+id;
       operaciones.insertar(sql);

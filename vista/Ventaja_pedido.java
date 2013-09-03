@@ -41,11 +41,13 @@ public class Ventaja_pedido extends javax.swing.JDialog {
          */
     public Ventaja_pedido(java.awt.Frame parent, boolean modal,Usuario usuario,Operaciones operaciones,boolean editar,Principal ventanaPrincipal) {
         super(parent, modal);
+        this.setLocationRelativeTo(null);
         this.usuario=usuario;
         this.operaciones=operaciones;
         this.editar=editar;
         this.ventanaPrincipal=ventanaPrincipal;
         initComponents();
+        this.setLocationRelativeTo(null);
         valoresPorDefecto();
         
         setLayout(null);
@@ -61,13 +63,12 @@ public class Ventaja_pedido extends javax.swing.JDialog {
        panelPedido.valoresEdicion();
        panelPedido.setIdPedido(pedido.getId());
        panelPedido.setBounds(0, 0,900,850);
-       detallePedido=new DetallePedido(usuario,panelPedido,editar);
+       detallePedido=new DetallePedido(usuario,panelPedido,editar,this);
        detallePedido.setPedido(pedido);
        detallePedido.valoresEdicion();
        detallePedido.setBounds(0, 260, 900, 500);
        panelPedido.setDetallePedido(detallePedido);
-       //panelPedido.setDetallePedido(detallePedido);
-       //detallePedido.setVisible(true);
+      
        add(panelPedido);
     }
     public void iniciar_componentes(){

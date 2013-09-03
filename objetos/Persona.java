@@ -22,7 +22,7 @@ public class Persona {
     private String apellido;
     private String telefono;
     private Operaciones operaciones=new Operaciones();
-    
+    private Object[][] clientes;
     public Persona(String nombre,String apellido,String telefono)
     {
         this.nombre=nombre;
@@ -42,6 +42,7 @@ public class Persona {
         telefono=""+fila[3];
         
     }
+   
     public DefaultComboBoxModel listaNombres(String cadenaEscrita){
         
         String query = "SELECT  p.nombre, p.apellidos,id FROM persona p WHERE p.nombre LIKE '" + cadenaEscrita + "%';";

@@ -13,7 +13,7 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author juanki
  */
-public class Montura {
+public class Gafa {
     private int id;
     private String marca="";
     private String modelo="";
@@ -26,13 +26,14 @@ public class Montura {
     private Date fechaIngreso;
     private String ingresoFecha;
     private String monturaGafa;
+    
     private double precio;
     int idProveedor;
     int idPedido;
     private Operaciones operaciones=new Operaciones();
     private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
     
-    public Montura(String marca,String modelo,String tamanio,String color,String monturaGafa)
+    public Gafa(String marca,String modelo,String tamanio,String color,String monturaGafa)
     {
         this.marca=marca;
         this.modelo=modelo;
@@ -44,10 +45,10 @@ public class Montura {
         precioDeVentaUnitario=-1;
         
     }
-    public Montura(){
+    public Gafa(){
     
     }
-    public Montura(int idPedido){
+    public Gafa(int idPedido){
         this.idPedido=idPedido;
         if(existeMontura()){
         String sql="SELECT m.id, m.marca, m.modelo, m.tamanio, m.color, m.montura_gafa"
@@ -63,7 +64,7 @@ public class Montura {
         tamanio=""+fila[3];
         color=""+fila[4];
         monturaGafa=""+fila[5];
-        //cantidadStock=(Integer)fila[6];
+        //cantidadStok=(Integer)fila[6];
         }
         }else{
         marca="";
@@ -72,8 +73,9 @@ public class Montura {
         color="";    
         }
     }
-    public void recuperarDatosMontura(int idMontura){
-        id=idMontura;
+    public void recuperarDatosGafa(int idGafa){
+        //this.idPedido=idPedido;
+        id=idGafa;
         
         String sql="SELECT m.id, m.marca, m.modelo, m.tamanio, m.color, m.montura_gafa, m.cantidadStock"
                  +" FROM montura m"
@@ -158,9 +160,7 @@ public class Montura {
     public void setMarca(String m){
         marca=m;
     }
-    public void setModelo(String m){
-        modelo=m;
-    }
+    
     public void setColor(String c){
         color=c;
     }
@@ -170,10 +170,6 @@ public class Montura {
     }
     public void setMontutaGafa(String monturaGafa){
         this.monturaGafa=monturaGafa;
-    }
-    public void reservar(){
-        int idre=  operaciones.consultarGetInt("Select rem.registroEntradas_id from RegistroEntradasMontura rem, registroEntradas re where re.id = rem.registroEntradas_id AND re.id="+idMasAntiguoEntradaEnInventario());   
-       operaciones.insertar("Update RegistroEntradas set reservado = reservado + 1 where id="+idre);
     }
     public int idMasAntiguoEntradaEnInventario(){
         return operaciones.consultarId("SELECT re.id  FROM registroEntradas re, registroEntradasMontura rem "
@@ -195,7 +191,7 @@ public class Montura {
                 + "SET cantidadStock = cantidadStock - 1 "
                 + " WHERE id ="+id;
         operaciones.insertar(sql);
-        //descontarEnProveedor();
+    //    descontarEnProveedor();
     }
     public boolean losDatosSonVacios(){
         boolean res=false;
@@ -203,6 +199,10 @@ public class Montura {
             res=true;
         }
         return res;
+    }
+    public void reservar(){
+       int idre=  operaciones.consultarGetInt("Select rem.registroEntradas_id from RegistroEntradasMontura rem, registroEntradas re where re.id = rem.registroEntradas_id AND re.id="+idMasAntiguoEntradaEnInventario());   
+       operaciones.insertar("Update RegistroEntradas set reservado = reservado + 1 where id="+idre);
     }
     public double getPrecio(){
         String sql="SELECT re.precioDeVentaUnitario  FROM registroEntradas re, registroEntradasMontura rem "
@@ -215,9 +215,9 @@ public class Montura {
     }
     public int guardarEnBD(){
         String sql="insert into montura(marca,modelo,tamanio,color,cantidadStock,montura_gafa)"
-                + "values('"+marca+"','"+modelo+"','"+tamanio+"','"+color+"',0,'"+monturaGafa+"')";
+                + "values('"+marca+"','"+modelo+"','"+tamanio+"','"+color+"',-1,'"+monturaGafa+"')";
         id=operaciones.guardarYRecuperarId(sql);
-        descontarUno();
+       // descontarUno();
         return id;
     }
     public void crearProveedorNegativo(){
@@ -226,14 +226,16 @@ public class Montura {
         idProveedor=operaciones.guardarYRecuperarId(sql);
         
     }
-    
+    /*
     public void actualizar(){
         String sql="UPDATE montura "
                 + "SET marca ='"+marca+"',"
-                + "modelo ='"+modelo+"',"
+                + "codigo ='"+codigo+"',"
                 + "color ='"+color+"',"
-                + "tamanio ='"+tamanio+"'"
+                + "tipo ='"+tipo+"',"
+                + "tamanio ='"+tamanio+"',"
+                + "estado = '"+estado+"'"
                 + " WHERE id ="+id;
       operaciones.insertar(sql);
-    }
+    }*/
 }

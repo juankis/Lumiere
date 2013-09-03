@@ -14,6 +14,7 @@ import conexion.Operaciones;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -27,6 +28,7 @@ import objetos.Pago;
 import objetos.Pedido;
 import objetos.Persona;
 import objetos.Usuario;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 /**
  *
  * @author juanki
@@ -43,6 +45,8 @@ public class pedido extends javax.swing.JPanel {
     private DetallePedido detallePedido;
     private Operaciones operaciones;
     private Ventaja_pedido ventana;
+    private ArrayList<ArrayList<String>> clientesOrdenPorNombres;
+    private ArrayList<ArrayList<String>> clientesOrdenPorApellidos;
     private boolean edicion;
     public pedido(Usuario usuario,Operaciones operaciones,Ventaja_pedido ventana,boolean edicion){ 
         initComponents();
@@ -56,8 +60,10 @@ public class pedido extends javax.swing.JPanel {
         if(!edicion){
         
         //autocompletes
-        iniciarAutoCompletes(); 
         setnombresComponentes();
+        iniciarAutoCompletes(); 
+        
+        llenarAutocompletes();
         //detallePedido
         //nuevoDetallePedido();
         mostrarDatosLabelsCliente(false);
@@ -87,8 +93,8 @@ public class pedido extends javax.swing.JPanel {
         edicion=false;
         if(detallePedido!=null)
             this.remove(detallePedido);
-        detallePedido=new DetallePedido(usuario,this,false);
-        
+        detallePedido=new DetallePedido(usuario,this,false,ventana);
+        detallePedido.setCliente(persona);
         this.add(detallePedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 900, 500));
         addFondo();
         addPedido.setEnabled(false);
@@ -103,6 +109,22 @@ public class pedido extends javax.swing.JPanel {
         nombre_cliente.setName("nombre_cliente");
         apellido_cliente.setName("apellido_cliente");
     }
+    public void llenarAutocompletes(){
+        clientesOrdenPorNombres = operaciones.getClientes("select id,nombre,apellidos,telefono from persona ORDER BY nombre ASC ");
+        clientesOrdenPorApellidos = operaciones.getClientes("select id,nombre,apellidos,telefono from persona ORDER BY apellidos ASC ");
+        nombre_cliente.addItem("");
+        apellido_cliente.addItem("");
+        for(int i=0;i<clientesOrdenPorNombres.size();i++){
+            nombre_cliente.addItem(clientesOrdenPorNombres.get(i).get(1) +" "+clientesOrdenPorNombres.get(i).get(2));
+            apellido_cliente.addItem(clientesOrdenPorApellidos.get(i).get(2)+" "+clientesOrdenPorApellidos.get(i).get(1));
+        }
+        
+        //nombre_cliente.setModel(persona.listaNombres(""));
+        AutoCompleteDecorator.decorate(nombre_cliente);
+        //apellido_cliente.setModel(persona.listaApellidos(""));
+        AutoCompleteDecorator.decorate(apellido_cliente);
+    }
+    
     public void iniciarAutoCompletes(){
         nombre_cliente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
            @Override
@@ -115,17 +137,20 @@ public class pedido extends javax.swing.JPanel {
             public void keyReleased(KeyEvent evt) {
                autocompletar(evt,apellido_cliente);
             }
-        });
-        
+        });    
     }
-    public void autocompletar(KeyEvent evt,JComboBox combo)
-    {
+    public void autocompletar(KeyEvent evt,JComboBox combo){
         if(!edicion){
-         String cadenaEscrita = combo.getEditor().getItem().toString();
-             if(cadenaEscrita.length()>5){   
-                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-                        buscar(cadenaEscrita);
+        String cadenaEscrita=""; 
+                cadenaEscrita= combo.getEditor().getItem().toString();
+        System.out.println(cadenaEscrita);
+        
+         //if(cadenaEscrita.length()>5){   
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER){ 
+                    buscar(cadenaEscrita,combo);
+                    
                 }
+                /*
                 if (evt.getKeyCode() >= 65 && evt.getKeyCode() <= 90 || evt.getKeyCode() >= 96 && evt.getKeyCode() <= 105 || evt.getKeyCode() == 8) {
                     listarNombres(combo,cadenaEscrita);
                     
@@ -143,8 +168,9 @@ public class pedido extends javax.swing.JPanel {
 
                         combo.addItem(cadenaEscrita);
                     }
-                }
-        }
+                }*/
+        //}//else
+         //combo.getEditor().setItem(cadenaEscrita);     
         }
     }
     public void listarNombres(JComboBox combo,String cadenaEscrita){
@@ -157,8 +183,8 @@ public class pedido extends javax.swing.JPanel {
         
     }
             
-    public void buscar(String nombre) {
-        int indice=nombre.indexOf(":");
+    public void buscar(String nombre,JComboBox combo) {
+       /* int indice=nombre.indexOf(":");
         int id=Integer.parseInt(nombre.substring(indice+1));
         persona= new Persona(id);
         int ax = JOptionPane.showConfirmDialog(null, "Cliente: "+persona.getName()+" "+persona.getApellido()+ " ID: "+persona.getId());
@@ -167,7 +193,21 @@ public class pedido extends javax.swing.JPanel {
             addPedido.setEnabled(true);
          }else if(ax == JOptionPane.NO_OPTION||ax == JOptionPane.CANCEL_OPTION||ax == JOptionPane.CLOSED_OPTION)
            confirmarCliente(false); 
-       
+       */
+        int indexSelectedApellidos=apellido_cliente.getSelectedIndex();
+        int indexSelectedNombre=nombre_cliente.getSelectedIndex();
+        if(!(indexSelectedNombre==-1||indexSelectedApellidos==-1||(indexSelectedNombre==0&&indexSelectedApellidos==0))){
+        if(combo.getName().equals("apellido_cliente"))
+             persona=new Persona(Integer.parseInt(clientesOrdenPorApellidos.get(apellido_cliente.getSelectedIndex()-1).get(0)));
+        if(combo.getName().equals("nombre_cliente"))
+             persona=new Persona(Integer.parseInt(clientesOrdenPorNombres.get(nombre_cliente.getSelectedIndex()-1).get(0)));
+        int ax = JOptionPane.showConfirmDialog(null, "Cliente: "+persona.getName()+" "+persona.getApellido()+ " ID: "+persona.getId());
+         if(ax == JOptionPane.YES_OPTION){
+            confirmarCliente(true);
+            addPedido.setEnabled(true);
+         }else if(ax == JOptionPane.NO_OPTION||ax == JOptionPane.CANCEL_OPTION||ax == JOptionPane.CLOSED_OPTION)
+           confirmarCliente(false); 
+        }
     }
     public void confirmarCliente(boolean confirmacion){
         if(confirmacion){
@@ -206,8 +246,8 @@ public class pedido extends javax.swing.JPanel {
         labelIdPedido = new javax.swing.JLabel();
         addPedido = new javax.swing.JButton();
         guardarCliente = new javax.swing.JButton();
-        nombreLabel = new javax.swing.JLabel();
         apellidoLabel = new javax.swing.JLabel();
+        nombreLabel = new javax.swing.JLabel();
         telefonoLabel = new javax.swing.JLabel();
         editarCliente = new javax.swing.JButton();
         guardarCambios = new javax.swing.JButton();
@@ -273,11 +313,11 @@ public class pedido extends javax.swing.JPanel {
         });
         add(guardarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        nombreLabel.setFont(new java.awt.Font("Arial Narrow", 1, 18));
-        add(nombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
-
         apellidoLabel.setFont(new java.awt.Font("Arial Narrow", 1, 18));
-        add(apellidoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
+        add(apellidoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
+
+        nombreLabel.setFont(new java.awt.Font("Arial Narrow", 1, 18));
+        add(nombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
 
         telefonoLabel.setFont(new java.awt.Font("Arial Narrow", 1, 18));
         add(telefonoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
@@ -400,10 +440,10 @@ public class pedido extends javax.swing.JPanel {
     private boolean validarDatosCliente(){
         boolean validacion=false;
         
-        if(getString(apellido_cliente).equals("")&&apellido_cliente.getEditor().getItem().toString().equals("")){
+        if(getString(apellido_cliente).equals("")&&getString(nombre_cliente).equals("")){
             JOptionPane.showMessageDialog(null, "no coloco nombre y apellido");
         }else{
-            if(getString(apellido_cliente).equals(""))
+            if(getString(nombre_cliente).equals(""))
             JOptionPane.showMessageDialog(null, "no coloco nombre");
             else{
                 if(getString(apellido_cliente).equals(""))
@@ -458,7 +498,7 @@ public class pedido extends javax.swing.JPanel {
         llenarTablaPedidos();
     }
     public void llenarTablaPedidos(){
-        String sql = "SELECT ped.id as 'ID Pedido', per.nombre, per.apellidos, (pag.monto_total - pag.descuento ) as Saldo, ped.fecha_entrega"
+        String sql = "SELECT ped.id as 'ID Pedido', per.nombre, per.apellidos, pag.saldo as Saldo, ped.fecha_entrega"
                    + " FROM pedido ped, persona per, pago pag"
                    + " WHERE per.id = ped.persona_id"
                    + " AND ped.id = pag.pedido_id"
@@ -482,11 +522,11 @@ public class pedido extends javax.swing.JPanel {
         telefono.setVisible(estado);
     }
     public void mostrarDatosLabelsCliente(boolean estado){
-        nombreLabel.setText(persona.getName());
         apellidoLabel.setText(persona.getApellido());
+        nombreLabel.setText(persona.getName());
         telefonoLabel.setText(persona.getTelf());
-        nombreLabel.setVisible(estado);
         apellidoLabel.setVisible(estado);
+        nombreLabel.setVisible(estado);
         telefonoLabel.setVisible(estado);
     }
 
@@ -589,8 +629,8 @@ public class pedido extends javax.swing.JPanel {
             if(detallePedido!=null)
                 this.remove(detallePedido);
             int id=(Integer)modelo.getValueAt(fila_select, 0);
-            System.out.println(id+"****************************************************");
-            detallePedido=new DetallePedido(usuario, this, edicion);
+            
+            detallePedido=new DetallePedido(usuario, this, edicion,ventana);
             detallePedido.setCliente(persona);
             detallePedido.setIdPedido(id);
             labelIdPedido.setText("ID Pedido "+id);

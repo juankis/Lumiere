@@ -12,12 +12,12 @@ import conexion.Operaciones;
  */
 public class ACuenta {
     int id;
-    int aCuenta;
+    double aCuenta;
     Date fechaDeposito;
     int pagoId;
     int usuarioId;
     private Operaciones operaciones=new Operaciones();
-    public ACuenta(int aCuenta,Date fechaDeposito,int pagoId, int usuarioID){
+    public ACuenta(double aCuenta,Date fechaDeposito,int pagoId, int usuarioID){
         this.aCuenta=aCuenta;
         this.fechaDeposito=fechaDeposito;
         this.pagoId=pagoId;

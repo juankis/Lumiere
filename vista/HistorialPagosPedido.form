@@ -1,0 +1,184 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="clienteLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="idPedidoLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="costoLente" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="92" pref="92" max="92" attributes="0"/>
+                      <Component id="costoGafaDeSol" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="costoVarios" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="90" pref="90" max="90" attributes="0"/>
+                      <Component id="costoMontura" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane2" alignment="0" min="-2" pref="370" max="-2" attributes="0"/>
+                  <Component id="totalACuenta" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="saldoActual" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                      <Component id="aceptar" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="descuento" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="99" pref="99" max="99" attributes="0"/>
+                      <Component id="totalAPagar" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="11" pref="11" max="11" attributes="0"/>
+              <Component id="clienteLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+              <Component id="idPedidoLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="costoLente" min="-2" max="-2" attributes="0"/>
+                  <Component id="costoGafaDeSol" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="costoVarios" min="-2" max="-2" attributes="0"/>
+                  <Component id="costoMontura" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="descuento" min="-2" max="-2" attributes="0"/>
+                  <Component id="totalAPagar" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="121" max="-2" attributes="0"/>
+              <EmptySpace min="24" pref="24" max="24" attributes="0"/>
+              <Component id="totalACuenta" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+              <Component id="saldoActual" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="18" pref="18" max="18" attributes="0"/>
+              <Component id="aceptar" min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tablaHistoriaDePagos">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="4" rowCount="4">
+                <Column editable="false" title="Title 1" type="java.lang.Object"/>
+                <Column editable="false" title="Title 2" type="java.lang.Object"/>
+                <Column editable="false" title="Title 3" type="java.lang.Object"/>
+                <Column editable="false" title="Title 4" type="java.lang.Object"/>
+              </Table>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="clienteLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cliente :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="idPedidoLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ID Pedido :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="saldoActual">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Saldo Acual :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="totalACuenta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Total Acuenta :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="costoLente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Costo Lente :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="costoMontura">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Costo Montura"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="costoGafaDeSol">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Costo Gafa de Sol :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="costoVarios">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Costo Varios :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="totalAPagar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Total a Pagar :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="descuento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Descuento :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="aceptar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Aceptar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aceptarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Lista de pagos a cuenta:"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

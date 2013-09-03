@@ -29,6 +29,7 @@ public class Login_usuario extends javax.swing.JPanel {
     private Usuario usuario;
     public Login_usuario(menuPrincipal ventanaPrincipal) {
         initComponents();
+        
         inicio =ventanaPrincipal;
     }
     public void ingresar(){
@@ -60,14 +61,15 @@ public class Login_usuario extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         login = new javax.swing.JTextField();
         ingresar = new javax.swing.JButton();
-        nuevoUsuario = new javax.swing.JButton();
         password = new javax.swing.JPasswordField();
+        salir = new javax.swing.JButton();
 
         jLabel1.setText("Login");
 
         jLabel2.setText("Password");
 
         ingresar.setText("Ingresar");
+        ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ingresarActionPerformed(evt);
@@ -79,15 +81,15 @@ public class Login_usuario extends javax.swing.JPanel {
             }
         });
 
-        nuevoUsuario.setText("Nuevo Usuario");
-        nuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nuevoUsuarioActionPerformed(evt);
+                salirActionPerformed(evt);
             }
         });
-        nuevoUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+        salir.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                nuevoUsuarioKeyPressed(evt);
+                salirKeyPressed(evt);
             }
         });
 
@@ -106,11 +108,11 @@ public class Login_usuario extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(login, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                             .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(ingresar)
-                        .addGap(18, 18, 18)
-                        .addComponent(nuevoUsuario)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(131, 131, 131))
         );
         layout.setVerticalGroup(
@@ -126,16 +128,11 @@ public class Login_usuario extends javax.swing.JPanel {
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ingresar)
-                    .addComponent(nuevoUsuario))
+                    .addComponent(salir)
+                    .addComponent(ingresar))
                 .addContainerGap(128, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void nuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoUsuarioActionPerformed
-        inicio.setVisibleFalsoTodos();
-        inicio.registrarnuevoUsuario();
-    }//GEN-LAST:event_nuevoUsuarioActionPerformed
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
         ingresar();
@@ -145,9 +142,13 @@ public class Login_usuario extends javax.swing.JPanel {
          keyEnter(evt);
     }//GEN-LAST:event_ingresarKeyPressed
 
-    private void nuevoUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nuevoUsuarioKeyPressed
-        keyEnter(evt);
-    }//GEN-LAST:event_nuevoUsuarioKeyPressed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        
+    }//GEN-LAST:event_salirActionPerformed
+
+    private void salirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_salirKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salirKeyPressed
     private boolean validarDatosUsuario(){
         boolean validacion=false;
         if(!login.getText().equals(""))
@@ -167,7 +168,7 @@ public class Login_usuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField login;
-    private javax.swing.JButton nuevoUsuario;
     private javax.swing.JPasswordField password;
+    private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
 }

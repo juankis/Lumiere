@@ -35,16 +35,16 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              <Component id="panelPrincipal" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="panelPrincipal" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="panelPrincipal" max="32767" attributes="0"/>
+              <Component id="panelPrincipal" pref="552" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -59,29 +59,51 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="448" pref="448" max="448" attributes="0"/>
-                          <Component id="bienvenidaUsuario" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="27" pref="27" max="27" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="panelFiltrar4" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" alignment="0" min="-2" pref="633" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="nuevoPedido" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="6" pref="6" max="6" attributes="0"/>
-                                  <Component id="verPedido" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="saldarPedido" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                  <Component id="filtrarPedidos" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
-                                  <Component id="cerrarSecion" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Component id="panelFiltrar4" min="-2" pref="611" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="27" pref="27" max="27" attributes="0"/>
+                          <Component id="actualizar" min="-2" pref="91" max="-2" attributes="0"/>
+                          <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                          <Component id="verPedido" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                          <Component id="saldarPedido" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                          <Component id="verHistorialPagos" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="cancelarPedido" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="27" pref="27" max="27" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="611" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="186" pref="186" max="186" attributes="0"/>
+                          <Component id="anterior" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                          <Component id="siguiente" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" attributes="1">
+                              <EmptySpace min="27" pref="27" max="27" attributes="0"/>
+                              <Component id="nuevoPedido" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="filtrarPedidos" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="reportes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="usuarios" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="cerrarSecion" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="448" pref="448" max="448" attributes="0"/>
+                              <Component id="bienvenidaUsuario" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -90,23 +112,35 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="11" pref="11" max="11" attributes="0"/>
                   <Component id="bienvenidaUsuario" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <EmptySpace min="6" pref="6" max="6" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="nuevoPedido" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="verPedido" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="saldarPedido" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="cerrarSecion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="filtrarPedidos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="reportes" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cerrarSecion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="usuarios" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="18" pref="18" max="18" attributes="0"/>
                   <Component id="panelFiltrar4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="263" max="-2" attributes="0"/>
-                  <EmptySpace pref="90" max="32767" attributes="0"/>
+                  <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="actualizar" min="-2" max="-2" attributes="0"/>
+                      <Component id="verPedido" min="-2" max="-2" attributes="0"/>
+                      <Component id="saldarPedido" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="verHistorialPagos" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cancelarPedido" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="5" pref="5" max="5" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="268" max="-2" attributes="0"/>
+                  <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="anterior" min="-2" max="-2" attributes="0"/>
+                      <Component id="siguiente" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -118,6 +152,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevoPedidoActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nuevoPedidoKeyPressed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -151,6 +186,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verPedidoActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="verPedidoKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="bienvenidaUsuario">
@@ -167,6 +203,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cerrarSecionActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cerrarSecionKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="filtrarPedidos">
@@ -175,6 +212,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filtrarPedidosActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="filtrarPedidosKeyPressed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="panelFiltrar4">
@@ -203,50 +241,49 @@
                       </Group>
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="ocultar" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="pedidosEntregados" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="pedidosEntregados" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="comboUsuarios" alignment="0" max="32767" attributes="1"/>
-                                      <Component id="pedidosPendientes" alignment="0" max="32767" attributes="1"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="comboUsuarios" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="pedidosPendientes" alignment="0" max="32767" attributes="1"/>
                               </Group>
-                              <EmptySpace min="-2" pref="292" max="-2" attributes="0"/>
-                              <Component id="filtrar4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              <Component id="fechaBusquedaCombo" min="-2" pref="117" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="fechaEmisionPedido" min="-2" pref="136" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="comboUsuarios" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="pedidosConSaldo" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                              <Component id="pedidosCancelados" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="pedidosPendientes" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                              <Component id="pedidosEntregados" min="-2" max="-2" attributes="0"/>
+                          <Component id="fechaEmisionPedido" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="fechaBusquedaCombo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="comboUsuarios" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="pedidosConSaldo" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
+                                      <Component id="pedidosCancelados" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="pedidosPendientes" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
+                                      <Component id="pedidosEntregados" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="ocultar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
-                      <Component id="filtrar4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -257,14 +294,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pedidos con saldo"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="filtrar4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Filtrar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filtrar4ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="pedidosPendientes">
               <Properties>
@@ -281,14 +310,6 @@
                 <Property name="text" type="java.lang.String" value="Pedidos cancelados"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="ocultar">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="ocultar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ocultarActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pedidos Realizados por"/>
@@ -303,6 +324,22 @@
                 </Property>
               </Properties>
             </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="fechaEmisionPedido">
+            </Component>
+            <Component class="javax.swing.JComboBox" name="fechaBusquedaCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="3">
+                    <StringItem index="0" value="Ninguna Fecha"/>
+                    <StringItem index="1" value="Fecha Ingreso"/>
+                    <StringItem index="2" value="Fecha Entrega"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fechaBusquedaComboActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JButton" name="saldarPedido">
@@ -311,6 +348,70 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saldarPedidoActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="saldarPedidoKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="anterior">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Anterior"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anteriorActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="anteriorKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="siguiente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Siguiente"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="siguienteActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="siguienteKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="actualizar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Actualizar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="actualizarActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="actualizarKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="verHistorialPagos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ver Historial Pagos"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verHistorialPagosActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="verHistorialPagosKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="cancelarPedido">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cancelar Pedido"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarPedidoActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cancelarPedidoKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="reportes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reportes"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reportesActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="reportesKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="usuarios">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Usuarios"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usuariosActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="usuariosKeyPressed"/>
           </Events>
         </Component>
       </SubComponents>

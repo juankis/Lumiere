@@ -50,4 +50,27 @@ public class Usuario {
     public String getLogin(){
         return login;
     }
+    public void setLogin(String login){
+        this.login=login;
+    }
+    public void setContrasenia(String contrasenia){
+        this.password=contrasenia;
+    }
+    public void actualizar(){
+         String sql="UPDATE usuario "
+                + "SET login ='"+login+"',"
+               
+                + " password ='"+password+"'"
+                + " WHERE id_usuario ="+id;
+        operaciones.insertar(sql);
+    }
+    public int getIdPersona(){
+        return idPersona;
+    }
+    public boolean esAdmin(){
+        if(login.equals("admin"))
+            return true;
+        else
+            return false;
+    }
 }
